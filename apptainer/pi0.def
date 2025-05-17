@@ -13,6 +13,7 @@ From: nvidia/cuda:12.2.2-devel-ubuntu22.04
     export DEBIAN_FRONTEND=noninteractive
     export PYTHON_VERSION=3.10
 
+    #add ffmpeg & pip 
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake \
         git git-lfs openssh-client \
@@ -55,8 +56,8 @@ From: nvidia/cuda:12.2.2-devel-ubuntu22.04
       && pip install -e ".[pi0]" \
       && pip install pytest \
       && git config --global --add safe.directory /root/lerobot
-
     echo 'install finished'
+    echo 'before run script, please set HF_TOKEN=""'
 
 #exec env
 %environment
@@ -65,25 +66,13 @@ From: nvidia/cuda:12.2.2-devel-ubuntu22.04
 
 #apptainer run
 %runscript
-    #!/bin/bash
-    set -e
-    cd /root/lerobot
+    #exec nvidia-smi
+
+    huggingface-cli login --token "$HF_TOKEN" --add-to-git-credential
+
     echo "train starting"
-    python /root/lerobot/scripts/train.py \
-        --policy.path=/root/lerobot/pi0 \
-        --dataset.repo_id=danaaubakirova/koch_test "$@"
+    python /root/lerobot/lerobot/scripts/train.py \
+        --policy.path=lerobot/pi0 \
+        --dataset.repo_id=danaaubakirova/koch_test 
     echo "train finished"
-
-%help
-    build:
-        apptainer build --fakeroot lerobot.sif lerobot.def
-
-    execution (GPU & X11):
-        apptainer run --nv \
-            -B /tmp/.x11-unix:/tmp/.x11-unix \
-            -B /path/to/datasets:/root/datasets \
-            lerobot.sif
-
-    example:
-        apptainer run --nv lerobot.sif --trainer.max_epochs=5
 

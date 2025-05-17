@@ -1,8 +1,12 @@
-singularity run --nvccli \
-    --bind /tmp/.X11-unix:/tmp/.X11-unix \
-    pi0.sif
-    #--bind ../pg-blip:/pg-blip \
-    #--bind ../models/pgvlm_weights.bin:/models/pgvlm_weights.bin \
-    #--bind ~/.cache/huggingface/hub:/root/.cache/huggingface/hub \
 
-#--nv --no-home \
+if [ -n "${HF_TOKEN:-}" ]; then
+  echo 'HF_TOKEN has already set'
+else
+  echo 'ERROR: Please set HF_TOKEN at first'
+  exit 1
+fi
+
+singularity run --nv \
+    --bind /tmp/.X11-unix:/tmp/.X11-unix \
+    --bind ~/vla/lerobot:/root/lerobot \
+    pi0.sif
