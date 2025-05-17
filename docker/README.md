@@ -35,3 +35,10 @@ docker exec -it {YOUR_HOST_NAME}_lerobot bash
 cd /root/lerobot
 ```
 
+### トラブルシューティング
+pi0でgemmaのモデルがDLできないとき
+huggingfaceにログイン，ユーザライセンス承諾，（まだないならtoken作成）
+```bash
+huggingface-cli login 
+```
+作成したtokenを入力して再度操作をやり直す

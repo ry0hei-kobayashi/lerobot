@@ -1,5 +1,6 @@
 #!/bin/bash
 source ~/.bashrc
+
 #install pi0
 cd ~/lerobot && pip install -e ".[pi0]"
 pip install pytest
