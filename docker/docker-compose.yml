@@ -25,5 +25,7 @@ services:
       - HDF5_USE_FILE_LOCKING=FALSE
       # For debugging with Hydra
       - HYDRA_FULL_ERROR=1
+      # select GPU device (A100 80GB 2nd) 
+      - NVIDIA_VISIBLE_DEVICES=1
     command: /root/lerobot/docker/initialize-docker-container.sh
 

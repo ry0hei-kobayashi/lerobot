@@ -1,0 +1,64 @@
+# Apptainer Definition File
+Bootstrap: docker
+From: nvidia/cuda:12.2.2-devel-ubuntu22.04
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export TZ=Asia/Tokyo
+    export XDG_RUNTIME_DIR=/run/user/1000
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+
+    # Create XDG_RUNTIME_DIR with permissions
+    mkdir -p /run/user/1000 && chmod 0700 /run/user/1000
+
+    # Use Japanese server for apt
+    sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
+
+    # Update apt and install common packages
+    apt-get -y update && \
+    apt-get -y install lsb-release software-properties-common git ssh \
+    python-is-python3 vim nano wget curl make build-essential cmake \
+    tmux libopencv-dev python3.9 python3.9-dev python3-pip \
+    xsel xclip
+
+    # Set Python 3.9 as default
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
+
+    # Upgrade pip, setuptools, and wheel
+    python -m pip install --upgrade pip setuptools wheel
+
+    # Clone LAVIS repository
+    git clone https://github.com/salesforce/LAVIS.git /LAVIS
+
+    # Install Open3D and other dependencies
+    python -m pip install open3d==0.18.0
+    sed -i 's/open3d==0.13.0/open3d==0.18.0/g' /LAVIS/requirements.txt
+    cd /LAVIS && pip install .
+
+    # Resolve numpy core multiarray issue and install compatible packages
+
+
+    pip uninstall opencv-python opencv-python-headless -y
+    pip install \
+        numpy==1.23.5 \
+        moviepy==1.0.3 \
+        opencv-python-headless==4.5.5.64 \
+        huggingface-hub==0.25.0 \
+        peft==0.13.0 \
+        salesforce-lavis==1.0.1
+
+    # Download model
+    #mkdir /models
+    #cd /models && wget https://huggingface.co/bidiptas/PG-InstructBLIP/resolve/main/pgvlm_weights.bin
+
+    # Set up tmux configuration
+    git clone https://github.com/ry0hei-kobayashi/tmux-conf.git && mv tmux-conf/.tmux.conf ~/
+
+%runscript
+    exec python ~/pg-blip-docker/pg-blip/cuda.py
+    #exec nvidia-smi
+
+

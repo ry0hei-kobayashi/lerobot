@@ -74,7 +74,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libxkbcommon-x11-dev && \
 	apt clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install ffmpeg -y
+RUN apt-get update && apt-get install ffmpeg python3-pip -y
 
 # Set EGL as the rendering backend for MuJoCo
 ENV MUJOCO_GL="egl"
