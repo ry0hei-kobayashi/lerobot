@@ -1,64 +1,89 @@
-# Apptainer Definition File
 Bootstrap: docker
 From: nvidia/cuda:12.2.2-devel-ubuntu22.04
 
-%environment
-    export LC_ALL=C.UTF-8
-    export LANG=C.UTF-8
-    export TZ=Asia/Tokyo
-    export XDG_RUNTIME_DIR=/run/user/1000
+%labels
+    Author          Ryohei Kobayashi
+    Description     Lerobot pi0 train
+
+%files
+    ../  /root/lerobot
 
 %post
+    #set -e
     export DEBIAN_FRONTEND=noninteractive
+    export PYTHON_VERSION=3.10
 
-    # Create XDG_RUNTIME_DIR with permissions
-    mkdir -p /run/user/1000 && chmod 0700 /run/user/1000
+    apt-get update && apt-get install -y --no-install-recommends \
+        build-essential cmake \
+        git git-lfs openssh-client \
+        nano vim less util-linux tree \
+        htop atop nvtop \
+        sed gawk grep curl wget zip unzip \
+        tcpdump sysstat screen tmux \
+        libglib2.0-0 libgl1-mesa-glx libegl1-mesa \
+        speech-dispatcher portaudio19-dev libgeos-dev \
+        python${PYTHON_VERSION} python${PYTHON_VERSION}-dev python${PYTHON_VERSION}-venv \
+        autoconf automake yasm libass-dev libfreetype6-dev libgnutls28-dev \
+        libunistring-dev libmp3lame-dev libtool libvorbis-dev meson ninja-build \
+        pkg-config texinfo zlib1g-dev nasm libx264-dev libx265-dev libnuma-dev \
+        libvpx-dev libfdk-aac-dev libopus-dev libsvtav1-dev libsvtav1enc-dev \
+        libsvtav1dec-dev libdav1d-dev \
+        libx11-dev libxcursor-dev libxcb1-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
+        ffmpeg python3-pip gpg \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-    # Use Japanese server for apt
-    sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
+    #install gh CLI
+    mkdir -p -m 755 /etc/apt/keyrings
+    wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+         | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+    chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+         | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    apt-get update && apt-get install -y gh && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-    # Update apt and install common packages
-    apt-get -y update && \
-    apt-get -y install lsb-release software-properties-common git ssh \
-    python-is-python3 vim nano wget curl make build-essential cmake \
-    tmux libopencv-dev python3.9 python3.9-dev python3-pip \
-    xsel xclip
+    ln -s /usr/bin/python3 /usr/bin/python || true
 
-    # Set Python 3.9 as default
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
+    #install poetry
+    curl -sSL https://install.python-poetry.org | python -
+    export PATH="/root/.local/bin:$PATH"
+    poetry config virtualenvs.create false
+    poetry config virtualenvs.in-project true
 
-    # Upgrade pip, setuptools, and wheel
-    python -m pip install --upgrade pip setuptools wheel
+    #install pi0 env
+    echo 'install pi0 environment'
+    cd /root/lerobot \
+      && pip install -e ".[pi0]" \
+      && pip install pytest \
+      && git config --global --add safe.directory /root/lerobot
 
-    # Clone LAVIS repository
-    git clone https://github.com/salesforce/LAVIS.git /LAVIS
+    echo 'install finished'
 
-    # Install Open3D and other dependencies
-    python -m pip install open3d==0.18.0
-    sed -i 's/open3d==0.13.0/open3d==0.18.0/g' /LAVIS/requirements.txt
-    cd /LAVIS && pip install .
+#exec env
+%environment
+    export PATH="/root/.local/bin:$PATH"
+    export MUJOCO_GL="egl"
 
-    # Resolve numpy core multiarray issue and install compatible packages
-
-
-    pip uninstall opencv-python opencv-python-headless -y
-    pip install \
-        numpy==1.23.5 \
-        moviepy==1.0.3 \
-        opencv-python-headless==4.5.5.64 \
-        huggingface-hub==0.25.0 \
-        peft==0.13.0 \
-        salesforce-lavis==1.0.1
-
-    # Download model
-    #mkdir /models
-    #cd /models && wget https://huggingface.co/bidiptas/PG-InstructBLIP/resolve/main/pgvlm_weights.bin
-
-    # Set up tmux configuration
-    git clone https://github.com/ry0hei-kobayashi/tmux-conf.git && mv tmux-conf/.tmux.conf ~/
-
+#apptainer run
 %runscript
-    exec python ~/pg-blip-docker/pg-blip/cuda.py
-    #exec nvidia-smi
+    #!/bin/bash
+    set -e
+    cd /root/lerobot
+    echo "train starting"
+    python /root/lerobot/scripts/train.py \
+        --policy.path=/root/lerobot/pi0 \
+        --dataset.repo_id=danaaubakirova/koch_test "$@"
+    echo "train finished"
 
+%help
+    build:
+        apptainer build --fakeroot lerobot.sif lerobot.def
+
+    execution (GPU & X11):
+        apptainer run --nv \
+            -B /tmp/.x11-unix:/tmp/.x11-unix \
+            -B /path/to/datasets:/root/datasets \
+            lerobot.sif
+
+    example:
+        apptainer run --nv lerobot.sif --trainer.max_epochs=5
 
