@@ -59,6 +59,10 @@ From: nvidia/cuda:12.2.2-devel-ubuntu22.04
     echo 'install finished'
     echo 'before run script, please set HF_TOKEN=""'
 
+#app:train
+#%appinstall train
+   
+
 #exec env
 %environment
     export PATH="/root/.local/bin:$PATH"
@@ -68,11 +72,22 @@ From: nvidia/cuda:12.2.2-devel-ubuntu22.04
 %runscript
     #exec nvidia-smi
 
+    pip install einops
+
     huggingface-cli login --token "$HF_TOKEN" --add-to-git-credential
 
-    echo "train starting"
-    python /root/lerobot/lerobot/scripts/train.py \
-        --policy.path=lerobot/pi0 \
-        --dataset.repo_id=danaaubakirova/koch_test 
-    echo "train finished"
+    python /root/lerobot/lerobot/scripts/eval.py \
+         --policy.path=/root/lerobot/lerobot/apptainer/outputs/train/100000/pretrained_model \
+	 --policy.local_files_only=true \
+    	 --env.type=pusht \
+    	 --eval.batch_size=10 \
+    	 --eval.n_episodes=50 \
+    	 --policy.use_amp=false \
+    	 --policy.device=cuda
+
+    #echo "train starting"
+    #python /root/lerobot/lerobot/scripts/train.py \
+    #    --policy.path=lerobot/pi0 \
+    #    --dataset.repo_id=danaaubakirova/koch_test 
+    #echo "train finished"
 

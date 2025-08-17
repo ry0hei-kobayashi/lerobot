@@ -1,0 +1,1420 @@
+HF_TOKEN has already set
+INFO:    underlay of /etc/localtime required more than 50 (108) bind mounts
+INFO:    underlay of /usr/bin/nvidia-persistenced required more than 50 (534) bind mounts
+Token is valid (permission: fineGrained).
+The token `token` has been saved to /home/kobayashi/.cache/huggingface/stored_tokens
+Token has not been saved to git credential helper.
+Your token has been saved to /home/kobayashi/.cache/huggingface/token
+Login successful.
+Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+[1m[31mCannot authenticate through git-credential as no helper is defined on your machine.
+You might have to re-authenticate when pushing to the Hugging Face Hub.
+Run the following command in your terminal in case you want to set the 'store' credential helper as default.
+
+git config --global credential.helper store
+
+Read https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage for more details.[0m
+train starting
+INFO 2025-05-18 02:33:44 ts/train.py:111 {'batch_size': 8,
+ 'dataset': {'episodes': None,
+             'image_transforms': {'enable': False,
+                                  'max_num_transforms': 3,
+                                  'random_order': False,
+                                  'tfs': {'brightness': {'kwargs': {'brightness': [0.8,
+                                                                                   1.2]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'contrast': {'kwargs': {'contrast': [0.8,
+                                                                               1.2]},
+                                                       'type': 'ColorJitter',
+                                                       'weight': 1.0},
+                                          'hue': {'kwargs': {'hue': [-0.05,
+                                                                     0.05]},
+                                                  'type': 'ColorJitter',
+                                                  'weight': 1.0},
+                                          'saturation': {'kwargs': {'saturation': [0.5,
+                                                                                   1.5]},
+                                                         'type': 'ColorJitter',
+                                                         'weight': 1.0},
+                                          'sharpness': {'kwargs': {'sharpness': [0.5,
+                                                                                 1.5]},
+                                                        'type': 'SharpnessJitter',
+                                                        'weight': 1.0}}},
+             'repo_id': 'danaaubakirova/koch_test',
+             'revision': None,
+             'root': None,
+             'use_imagenet_stats': True,
+             'video_backend': 'torchcodec'},
+ 'env': None,
+ 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},
+ 'eval_freq': 20000,
+ 'job_name': 'pi0',
+ 'log_freq': 200,
+ 'num_workers': 4,
+ 'optimizer': {'betas': [0.9, 0.95],
+               'eps': 1e-08,
+               'grad_clip_norm': 10.0,
+               'lr': 2.5e-05,
+               'type': 'adamw',
+               'weight_decay': 1e-10},
+ 'output_dir': 'outputs/train/2025-05-18/02-33-44_pi0',
+ 'policy': {'adapt_to_pi_aloha': False,
+            'attention_implementation': 'eager',
+            'chunk_size': 50,
+            'device': 'cuda',
+            'empty_cameras': 0,
+            'freeze_vision_encoder': True,
+            'input_features': {},
+            'max_action_dim': 32,
+            'max_state_dim': 32,
+            'n_action_steps': 50,
+            'n_obs_steps': 1,
+            'normalization_mapping': {'ACTION': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'STATE': <NormalizationMode.MEAN_STD: 'MEAN_STD'>,
+                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},
+            'num_steps': 10,
+            'optimizer_betas': [0.9, 0.95],
+            'optimizer_eps': 1e-08,
+            'optimizer_lr': 2.5e-05,
+            'optimizer_weight_decay': 1e-10,
+            'output_features': {},
+            'proj_width': 1024,
+            'resize_imgs_with_padding': [224, 224],
+            'scheduler_decay_lr': 2.5e-06,
+            'scheduler_decay_steps': 30000,
+            'scheduler_warmup_steps': 1000,
+            'tokenizer_max_length': 48,
+            'train_expert_only': False,
+            'train_state_proj': True,
+            'type': 'pi0',
+            'use_amp': False,
+            'use_cache': True,
+            'use_delta_joint_actions_aloha': False},
+ 'resume': False,
+ 'save_checkpoint': True,
+ 'save_freq': 20000,
+ 'scheduler': {'decay_lr': 2.5e-06,
+               'num_decay_steps': 30000,
+               'num_warmup_steps': 1000,
+               'peak_lr': 2.5e-05,
+               'type': 'cosine_decay_with_warmup'},
+ 'seed': 1000,
+ 'steps': 100000,
+ 'use_policy_training_preset': True,
+ 'wandb': {'disable_artifact': False,
+           'enable': False,
+           'entity': None,
+           'mode': None,
+           'notes': None,
+           'project': 'lerobot',
+           'run_id': None}}
+INFO 2025-05-18 02:33:44 ts/train.py:117 Logs will be saved locally.
+INFO 2025-05-18 02:33:44 ts/train.py:127 Creating dataset
+WARNING 2025-05-18 02:33:44 ts/utils.py:303 
+The dataset you requested (danaaubakirova/koch_test) is in 2.0 format.
+While current version of LeRobot is backward-compatible with it, the version of your dataset still uses global
+stats instead of per-episode stats. Update your dataset stats to the new format using this command:
+```
+python lerobot/common/datasets/v21/convert_dataset_v20_to_v21.py --repo-id=danaaubakirova/koch_test
+```
+
+If you encounter a problem, contact LeRobot maintainers on [Discord](https://discord.com/invite/s3KuuzsPFb)
+or open an [issue on GitHub](https://github.com/huggingface/lerobot/issues/new/choose).
+
+WARNING 2025-05-18 02:33:44 ts/utils.py:303 
+The dataset you requested (danaaubakirova/koch_test) is in 2.0 format.
+While current version of LeRobot is backward-compatible with it, the version of your dataset still uses global
+stats instead of per-episode stats. Update your dataset stats to the new format using this command:
+```
+python lerobot/common/datasets/v21/convert_dataset_v20_to_v21.py --repo-id=danaaubakirova/koch_test
+```
+
+If you encounter a problem, contact LeRobot maintainers on [Discord](https://discord.com/invite/s3KuuzsPFb)
+or open an [issue on GitHub](https://github.com/huggingface/lerobot/issues/new/choose).
+
+INFO 2025-05-18 02:33:45 ts/train.py:138 Creating policy
+INFO 2025-05-18 02:34:49 ts/train.py:144 Creating optimizer and scheduler
+INFO 2025-05-18 02:34:49 ts/train.py:156 Output dir: outputs/train/2025-05-18/02-33-44_pi0
+INFO 2025-05-18 02:34:49 ts/train.py:159 cfg.steps=100000 (100K)
+INFO 2025-05-18 02:34:49 ts/train.py:160 dataset.num_frames=16602 (17K)
+INFO 2025-05-18 02:34:49 ts/train.py:161 dataset.num_episodes=51
+INFO 2025-05-18 02:34:49 ts/train.py:162 num_learnable_params=3088929824 (3B)
+INFO 2025-05-18 02:34:49 ts/train.py:163 num_total_params=3501372212 (4B)
+/usr/local/lib/python3.10/dist-packages/torch/utils/data/dataloader.py:624: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+INFO 2025-05-18 02:34:49 ts/train.py:202 Start offline training on a fixed dataset
+INFO 2025-05-18 02:38:32 ts/train.py:232 step:200 smpl:2K ep:5 epch:0.10 loss:0.069 grdn:1.916 lr:2.5e-06 updt_s:1.096 data_s:0.014
+INFO 2025-05-18 02:42:09 ts/train.py:232 step:400 smpl:3K ep:10 epch:0.19 loss:0.039 grdn:1.295 lr:7.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 02:45:47 ts/train.py:232 step:600 smpl:5K ep:15 epch:0.29 loss:0.024 grdn:0.918 lr:1.3e-05 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 02:49:24 ts/train.py:232 step:800 smpl:6K ep:20 epch:0.39 loss:0.022 grdn:0.852 lr:1.8e-05 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 02:53:02 ts/train.py:232 step:1K smpl:8K ep:25 epch:0.48 loss:0.021 grdn:0.744 lr:2.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 02:56:39 ts/train.py:232 step:1K smpl:10K ep:29 epch:0.58 loss:0.018 grdn:0.545 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:00:17 ts/train.py:232 step:1K smpl:11K ep:34 epch:0.67 loss:0.020 grdn:0.625 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:03:54 ts/train.py:232 step:2K smpl:13K ep:39 epch:0.77 loss:0.017 grdn:0.505 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:07:32 ts/train.py:232 step:2K smpl:14K ep:44 epch:0.87 loss:0.016 grdn:0.480 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:11:10 ts/train.py:232 step:2K smpl:16K ep:49 epch:0.96 loss:0.017 grdn:0.531 lr:2.5e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 03:14:49 ts/train.py:232 step:2K smpl:18K ep:54 epch:1.06 loss:0.016 grdn:0.515 lr:2.5e-05 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 03:18:26 ts/train.py:232 step:2K smpl:19K ep:59 epch:1.16 loss:0.015 grdn:0.446 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:22:04 ts/train.py:232 step:3K smpl:21K ep:64 epch:1.25 loss:0.014 grdn:0.430 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:25:41 ts/train.py:232 step:3K smpl:22K ep:69 epch:1.35 loss:0.014 grdn:0.429 lr:2.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:29:19 ts/train.py:232 step:3K smpl:24K ep:74 epch:1.45 loss:0.013 grdn:0.401 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:32:56 ts/train.py:232 step:3K smpl:26K ep:79 epch:1.54 loss:0.013 grdn:0.405 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:36:34 ts/train.py:232 step:3K smpl:27K ep:84 epch:1.64 loss:0.013 grdn:0.442 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:40:12 ts/train.py:232 step:4K smpl:29K ep:88 epch:1.73 loss:0.013 grdn:0.417 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:43:49 ts/train.py:232 step:4K smpl:30K ep:93 epch:1.83 loss:0.013 grdn:0.399 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:47:27 ts/train.py:232 step:4K smpl:32K ep:98 epch:1.93 loss:0.018 grdn:0.807 lr:2.4e-05 updt_s:1.083 data_s:0.002
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 03:51:06 ts/train.py:232 step:4K smpl:34K ep:103 epch:2.02 loss:0.011 grdn:0.377 lr:2.4e-05 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 03:54:43 ts/train.py:232 step:4K smpl:35K ep:108 epch:2.12 loss:0.011 grdn:0.399 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 03:58:21 ts/train.py:232 step:5K smpl:37K ep:113 epch:2.22 loss:0.012 grdn:0.410 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:01:58 ts/train.py:232 step:5K smpl:38K ep:118 epch:2.31 loss:0.011 grdn:0.380 lr:2.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:05:36 ts/train.py:232 step:5K smpl:40K ep:123 epch:2.41 loss:0.012 grdn:0.414 lr:2.4e-05 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 04:09:14 ts/train.py:232 step:5K smpl:42K ep:128 epch:2.51 loss:0.010 grdn:0.390 lr:2.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:12:51 ts/train.py:232 step:5K smpl:43K ep:133 epch:2.60 loss:0.013 grdn:0.522 lr:2.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:16:29 ts/train.py:232 step:6K smpl:45K ep:138 epch:2.70 loss:0.010 grdn:0.353 lr:2.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:20:06 ts/train.py:232 step:6K smpl:46K ep:143 epch:2.79 loss:0.010 grdn:0.368 lr:2.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:23:44 ts/train.py:232 step:6K smpl:48K ep:147 epch:2.89 loss:0.010 grdn:0.375 lr:2.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:27:21 ts/train.py:232 step:6K smpl:50K ep:152 epch:2.99 loss:0.010 grdn:0.375 lr:2.3e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 04:31:01 ts/train.py:232 step:6K smpl:51K ep:157 epch:3.08 loss:0.009 grdn:0.356 lr:2.3e-05 updt_s:1.081 data_s:0.014
+INFO 2025-05-18 04:34:38 ts/train.py:232 step:7K smpl:53K ep:162 epch:3.18 loss:0.009 grdn:0.355 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:38:16 ts/train.py:232 step:7K smpl:54K ep:167 epch:3.28 loss:0.008 grdn:0.351 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:41:54 ts/train.py:232 step:7K smpl:56K ep:172 epch:3.37 loss:0.009 grdn:0.358 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:45:31 ts/train.py:232 step:7K smpl:58K ep:177 epch:3.47 loss:0.008 grdn:0.345 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:49:09 ts/train.py:232 step:7K smpl:59K ep:182 epch:3.57 loss:0.009 grdn:0.347 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:52:46 ts/train.py:232 step:8K smpl:61K ep:187 epch:3.66 loss:0.008 grdn:0.328 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 04:56:24 ts/train.py:232 step:8K smpl:62K ep:192 epch:3.76 loss:0.008 grdn:0.352 lr:2.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:00:01 ts/train.py:232 step:8K smpl:64K ep:197 epch:3.85 loss:0.008 grdn:0.334 lr:2.1e-05 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 05:03:39 ts/train.py:232 step:8K smpl:66K ep:202 epch:3.95 loss:0.008 grdn:0.338 lr:2.1e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 05:07:18 ts/train.py:232 step:8K smpl:67K ep:206 epch:4.05 loss:0.008 grdn:0.325 lr:2.1e-05 updt_s:1.081 data_s:0.011
+INFO 2025-05-18 05:10:55 ts/train.py:232 step:9K smpl:69K ep:211 epch:4.14 loss:0.008 grdn:0.338 lr:2.1e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:14:33 ts/train.py:232 step:9K smpl:70K ep:216 epch:4.24 loss:0.008 grdn:0.356 lr:2.1e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:18:10 ts/train.py:232 step:9K smpl:72K ep:221 epch:4.34 loss:0.008 grdn:0.370 lr:2.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:21:48 ts/train.py:232 step:9K smpl:74K ep:226 epch:4.43 loss:0.007 grdn:0.327 lr:2.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:25:26 ts/train.py:232 step:9K smpl:75K ep:231 epch:4.53 loss:0.007 grdn:0.324 lr:2.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:29:03 ts/train.py:232 step:10K smpl:77K ep:236 epch:4.63 loss:0.007 grdn:0.315 lr:2.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:32:41 ts/train.py:232 step:10K smpl:78K ep:241 epch:4.72 loss:0.007 grdn:0.310 lr:2.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:36:18 ts/train.py:232 step:10K smpl:80K ep:246 epch:4.82 loss:0.007 grdn:0.318 lr:1.9e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:39:56 ts/train.py:232 step:10K smpl:82K ep:251 epch:4.92 loss:0.006 grdn:0.309 lr:1.9e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 05:43:35 ts/train.py:232 step:10K smpl:83K ep:256 epch:5.01 loss:0.007 grdn:0.323 lr:1.9e-05 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 05:47:12 ts/train.py:232 step:11K smpl:85K ep:260 epch:5.11 loss:0.007 grdn:0.367 lr:1.9e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:50:50 ts/train.py:232 step:11K smpl:86K ep:265 epch:5.20 loss:0.007 grdn:0.310 lr:1.9e-05 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 05:54:28 ts/train.py:232 step:11K smpl:88K ep:270 epch:5.30 loss:0.007 grdn:0.377 lr:1.8e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 05:58:05 ts/train.py:232 step:11K smpl:90K ep:275 epch:5.40 loss:0.007 grdn:0.332 lr:1.8e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:01:43 ts/train.py:232 step:11K smpl:91K ep:280 epch:5.49 loss:0.006 grdn:0.298 lr:1.8e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:05:20 ts/train.py:232 step:12K smpl:93K ep:285 epch:5.59 loss:0.007 grdn:0.320 lr:1.8e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:08:58 ts/train.py:232 step:12K smpl:94K ep:290 epch:5.69 loss:0.006 grdn:0.295 lr:1.8e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:12:36 ts/train.py:232 step:12K smpl:96K ep:295 epch:5.78 loss:0.007 grdn:0.318 lr:1.7e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:16:13 ts/train.py:232 step:12K smpl:98K ep:300 epch:5.88 loss:0.006 grdn:0.301 lr:1.7e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:19:51 ts/train.py:232 step:12K smpl:99K ep:305 epch:5.98 loss:0.006 grdn:0.291 lr:1.7e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 06:23:30 ts/train.py:232 step:13K smpl:101K ep:310 epch:6.07 loss:0.006 grdn:0.292 lr:1.7e-05 updt_s:1.080 data_s:0.013
+INFO 2025-05-18 06:27:07 ts/train.py:232 step:13K smpl:102K ep:315 epch:6.17 loss:0.005 grdn:0.273 lr:1.6e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:30:45 ts/train.py:232 step:13K smpl:104K ep:319 epch:6.26 loss:0.006 grdn:0.305 lr:1.6e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:34:22 ts/train.py:232 step:13K smpl:106K ep:324 epch:6.36 loss:0.006 grdn:0.293 lr:1.6e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:38:00 ts/train.py:232 step:13K smpl:107K ep:329 epch:6.46 loss:0.005 grdn:0.268 lr:1.6e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:41:38 ts/train.py:232 step:14K smpl:109K ep:334 epch:6.55 loss:0.005 grdn:0.286 lr:1.6e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:45:15 ts/train.py:232 step:14K smpl:110K ep:339 epch:6.65 loss:0.005 grdn:0.271 lr:1.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:48:53 ts/train.py:232 step:14K smpl:112K ep:344 epch:6.75 loss:0.005 grdn:0.280 lr:1.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:52:30 ts/train.py:232 step:14K smpl:114K ep:349 epch:6.84 loss:0.005 grdn:0.275 lr:1.5e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 06:56:08 ts/train.py:232 step:14K smpl:115K ep:354 epch:6.94 loss:0.005 grdn:0.283 lr:1.5e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 06:59:47 ts/train.py:232 step:15K smpl:117K ep:359 epch:7.04 loss:0.005 grdn:0.276 lr:1.4e-05 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 07:03:25 ts/train.py:232 step:15K smpl:118K ep:364 epch:7.13 loss:0.005 grdn:0.283 lr:1.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:07:02 ts/train.py:232 step:15K smpl:120K ep:369 epch:7.23 loss:0.005 grdn:0.271 lr:1.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:10:40 ts/train.py:232 step:15K smpl:122K ep:374 epch:7.32 loss:0.005 grdn:0.262 lr:1.4e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:14:17 ts/train.py:232 step:15K smpl:123K ep:378 epch:7.42 loss:0.004 grdn:0.259 lr:1.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:17:55 ts/train.py:232 step:16K smpl:125K ep:383 epch:7.52 loss:0.004 grdn:0.247 lr:1.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:21:32 ts/train.py:232 step:16K smpl:126K ep:388 epch:7.61 loss:0.004 grdn:0.258 lr:1.3e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:25:10 ts/train.py:232 step:16K smpl:128K ep:393 epch:7.71 loss:0.004 grdn:0.249 lr:1.3e-05 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 07:28:48 ts/train.py:232 step:16K smpl:130K ep:398 epch:7.81 loss:0.004 grdn:0.254 lr:1.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:32:25 ts/train.py:232 step:16K smpl:131K ep:403 epch:7.90 loss:0.004 grdn:0.279 lr:1.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:36:03 ts/train.py:232 step:17K smpl:133K ep:408 epch:8.00 loss:0.004 grdn:0.262 lr:1.2e-05 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 07:39:42 ts/train.py:232 step:17K smpl:134K ep:413 epch:8.10 loss:0.004 grdn:0.258 lr:1.2e-05 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 07:43:20 ts/train.py:232 step:17K smpl:136K ep:418 epch:8.19 loss:0.004 grdn:0.275 lr:1.2e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:46:57 ts/train.py:232 step:17K smpl:138K ep:423 epch:8.29 loss:0.004 grdn:0.284 lr:1.1e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:50:35 ts/train.py:232 step:17K smpl:139K ep:428 epch:8.38 loss:0.004 grdn:0.250 lr:1.1e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:54:12 ts/train.py:232 step:18K smpl:141K ep:433 epch:8.48 loss:0.004 grdn:0.259 lr:1.1e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 07:57:50 ts/train.py:232 step:18K smpl:142K ep:437 epch:8.58 loss:0.004 grdn:0.258 lr:1.1e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:01:27 ts/train.py:232 step:18K smpl:144K ep:442 epch:8.67 loss:0.004 grdn:0.239 lr:1.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:05:05 ts/train.py:232 step:18K smpl:146K ep:447 epch:8.77 loss:0.004 grdn:0.279 lr:1.0e-05 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:08:43 ts/train.py:232 step:18K smpl:147K ep:452 epch:8.87 loss:0.004 grdn:0.246 lr:9.9e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:12:20 ts/train.py:232 step:19K smpl:149K ep:457 epch:8.96 loss:0.004 grdn:0.266 lr:9.7e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 08:15:59 ts/train.py:232 step:19K smpl:150K ep:462 epch:9.06 loss:0.003 grdn:0.240 lr:9.5e-06 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 08:19:37 ts/train.py:232 step:19K smpl:152K ep:467 epch:9.16 loss:0.004 grdn:0.249 lr:9.3e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:23:14 ts/train.py:232 step:19K smpl:154K ep:472 epch:9.25 loss:0.003 grdn:0.240 lr:9.1e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:26:52 ts/train.py:232 step:19K smpl:155K ep:477 epch:9.35 loss:0.004 grdn:0.334 lr:8.9e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:30:30 ts/train.py:232 step:20K smpl:157K ep:482 epch:9.44 loss:0.003 grdn:0.235 lr:8.6e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:34:07 ts/train.py:232 step:20K smpl:158K ep:487 epch:9.54 loss:0.003 grdn:0.231 lr:8.4e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:37:45 ts/train.py:232 step:20K smpl:160K ep:492 epch:9.64 loss:0.003 grdn:0.240 lr:8.2e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:37:45 ts/train.py:241 Checkpoint policy after step 20000
+INFO 2025-05-18 08:41:46 ts/train.py:232 step:20K smpl:162K ep:496 epch:9.73 loss:0.003 grdn:0.228 lr:8.0e-06 updt_s:1.084 data_s:0.002
+INFO 2025-05-18 08:45:23 ts/train.py:232 step:20K smpl:163K ep:501 epch:9.83 loss:0.004 grdn:0.241 lr:7.8e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:49:01 ts/train.py:232 step:21K smpl:165K ep:506 epch:9.93 loss:0.003 grdn:0.235 lr:7.6e-06 updt_s:1.083 data_s:0.002
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 08:52:40 ts/train.py:232 step:21K smpl:166K ep:511 epch:10.02 loss:0.003 grdn:0.247 lr:7.4e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 08:56:18 ts/train.py:232 step:21K smpl:168K ep:516 epch:10.12 loss:0.003 grdn:0.244 lr:7.2e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 08:59:55 ts/train.py:232 step:21K smpl:170K ep:521 epch:10.22 loss:0.003 grdn:0.218 lr:7.0e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:03:33 ts/train.py:232 step:21K smpl:171K ep:526 epch:10.31 loss:0.003 grdn:0.247 lr:6.9e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 09:07:10 ts/train.py:232 step:22K smpl:173K ep:531 epch:10.41 loss:0.003 grdn:0.229 lr:6.7e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:10:48 ts/train.py:232 step:22K smpl:174K ep:536 epch:10.50 loss:0.003 grdn:0.219 lr:6.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:14:26 ts/train.py:232 step:22K smpl:176K ep:541 epch:10.60 loss:0.003 grdn:0.231 lr:6.3e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:18:03 ts/train.py:232 step:22K smpl:178K ep:546 epch:10.70 loss:0.003 grdn:0.232 lr:6.1e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:21:41 ts/train.py:232 step:22K smpl:179K ep:550 epch:10.79 loss:0.003 grdn:0.224 lr:6.0e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:25:18 ts/train.py:232 step:23K smpl:181K ep:555 epch:10.89 loss:0.003 grdn:0.227 lr:5.8e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 09:28:56 ts/train.py:232 step:23K smpl:182K ep:560 epch:10.99 loss:0.003 grdn:0.247 lr:5.6e-06 updt_s:1.083 data_s:0.002
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 09:32:35 ts/train.py:232 step:23K smpl:184K ep:565 epch:11.08 loss:0.003 grdn:0.243 lr:5.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 09:36:12 ts/train.py:232 step:23K smpl:186K ep:570 epch:11.18 loss:0.003 grdn:0.221 lr:5.3e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:39:50 ts/train.py:232 step:23K smpl:187K ep:575 epch:11.28 loss:0.003 grdn:0.229 lr:5.2e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:43:28 ts/train.py:232 step:24K smpl:189K ep:580 epch:11.37 loss:0.003 grdn:0.251 lr:5.0e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:47:05 ts/train.py:232 step:24K smpl:190K ep:585 epch:11.47 loss:0.003 grdn:0.229 lr:4.9e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:50:43 ts/train.py:232 step:24K smpl:192K ep:590 epch:11.56 loss:0.002 grdn:0.204 lr:4.7e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:54:20 ts/train.py:232 step:24K smpl:194K ep:595 epch:11.66 loss:0.003 grdn:0.232 lr:4.6e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 09:57:58 ts/train.py:232 step:24K smpl:195K ep:600 epch:11.76 loss:0.003 grdn:0.236 lr:4.4e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:01:36 ts/train.py:232 step:25K smpl:197K ep:605 epch:11.85 loss:0.003 grdn:0.221 lr:4.3e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:05:13 ts/train.py:232 step:25K smpl:198K ep:609 epch:11.95 loss:0.003 grdn:0.224 lr:4.2e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 10:08:52 ts/train.py:232 step:25K smpl:200K ep:614 epch:12.05 loss:0.003 grdn:0.248 lr:4.1e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 10:12:30 ts/train.py:232 step:25K smpl:202K ep:619 epch:12.14 loss:0.003 grdn:0.215 lr:3.9e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:16:08 ts/train.py:232 step:25K smpl:203K ep:624 epch:12.24 loss:0.003 grdn:0.228 lr:3.8e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 10:19:45 ts/train.py:232 step:26K smpl:205K ep:629 epch:12.34 loss:0.003 grdn:0.222 lr:3.7e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:23:23 ts/train.py:232 step:26K smpl:206K ep:634 epch:12.43 loss:0.003 grdn:0.235 lr:3.6e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:27:00 ts/train.py:232 step:26K smpl:208K ep:639 epch:12.53 loss:0.003 grdn:0.252 lr:3.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:30:38 ts/train.py:232 step:26K smpl:210K ep:644 epch:12.62 loss:0.003 grdn:0.221 lr:3.4e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:34:15 ts/train.py:232 step:26K smpl:211K ep:649 epch:12.72 loss:0.002 grdn:0.208 lr:3.3e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:37:53 ts/train.py:232 step:27K smpl:213K ep:654 epch:12.82 loss:0.003 grdn:0.247 lr:3.2e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:41:31 ts/train.py:232 step:27K smpl:214K ep:659 epch:12.91 loss:0.003 grdn:0.232 lr:3.2e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 10:45:10 ts/train.py:232 step:27K smpl:216K ep:664 epch:13.01 loss:0.002 grdn:0.223 lr:3.1e-06 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 10:48:47 ts/train.py:232 step:27K smpl:218K ep:668 epch:13.11 loss:0.002 grdn:0.206 lr:3.0e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:52:25 ts/train.py:232 step:27K smpl:219K ep:673 epch:13.20 loss:0.003 grdn:0.236 lr:2.9e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:56:02 ts/train.py:232 step:28K smpl:221K ep:678 epch:13.30 loss:0.003 grdn:0.213 lr:2.9e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 10:59:40 ts/train.py:232 step:28K smpl:222K ep:683 epch:13.40 loss:0.003 grdn:0.243 lr:2.8e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:03:17 ts/train.py:232 step:28K smpl:224K ep:688 epch:13.49 loss:0.003 grdn:0.228 lr:2.8e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 11:06:55 ts/train.py:232 step:28K smpl:226K ep:693 epch:13.59 loss:0.003 grdn:0.241 lr:2.7e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 11:10:33 ts/train.py:232 step:28K smpl:227K ep:698 epch:13.69 loss:0.002 grdn:0.199 lr:2.7e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:14:10 ts/train.py:232 step:29K smpl:229K ep:703 epch:13.78 loss:0.002 grdn:0.226 lr:2.6e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:17:48 ts/train.py:232 step:29K smpl:230K ep:708 epch:13.88 loss:0.003 grdn:0.220 lr:2.6e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:21:25 ts/train.py:232 step:29K smpl:232K ep:713 epch:13.97 loss:0.002 grdn:0.221 lr:2.6e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 11:25:04 ts/train.py:232 step:29K smpl:234K ep:718 epch:14.07 loss:0.002 grdn:0.219 lr:2.6e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 11:28:42 ts/train.py:232 step:29K smpl:235K ep:723 epch:14.17 loss:0.002 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:32:20 ts/train.py:232 step:30K smpl:237K ep:727 epch:14.26 loss:0.003 grdn:0.243 lr:2.5e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 11:35:57 ts/train.py:232 step:30K smpl:238K ep:732 epch:14.36 loss:0.002 grdn:0.218 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:39:35 ts/train.py:232 step:30K smpl:240K ep:737 epch:14.46 loss:0.002 grdn:0.229 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:43:12 ts/train.py:232 step:30K smpl:242K ep:742 epch:14.55 loss:0.002 grdn:0.221 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:46:50 ts/train.py:232 step:30K smpl:243K ep:747 epch:14.65 loss:0.002 grdn:0.217 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:50:28 ts/train.py:232 step:31K smpl:245K ep:752 epch:14.75 loss:0.003 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:54:05 ts/train.py:232 step:31K smpl:246K ep:757 epch:14.84 loss:0.003 grdn:0.217 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 11:57:43 ts/train.py:232 step:31K smpl:248K ep:762 epch:14.94 loss:0.003 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 12:01:22 ts/train.py:232 step:31K smpl:250K ep:767 epch:15.03 loss:0.003 grdn:0.265 lr:2.5e-06 updt_s:1.081 data_s:0.014
+INFO 2025-05-18 12:05:00 ts/train.py:232 step:31K smpl:251K ep:772 epch:15.13 loss:0.002 grdn:0.235 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:08:37 ts/train.py:232 step:32K smpl:253K ep:777 epch:15.23 loss:0.003 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:12:15 ts/train.py:232 step:32K smpl:254K ep:781 epch:15.32 loss:0.003 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 12:15:52 ts/train.py:232 step:32K smpl:256K ep:786 epch:15.42 loss:0.003 grdn:0.233 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:19:30 ts/train.py:232 step:32K smpl:258K ep:791 epch:15.52 loss:0.003 grdn:0.227 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:23:07 ts/train.py:232 step:32K smpl:259K ep:796 epch:15.61 loss:0.002 grdn:0.221 lr:2.5e-06 updt_s:1.084 data_s:0.002
+INFO 2025-05-18 12:26:45 ts/train.py:232 step:33K smpl:261K ep:801 epch:15.71 loss:0.003 grdn:0.227 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:30:23 ts/train.py:232 step:33K smpl:262K ep:806 epch:15.81 loss:0.003 grdn:0.253 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:34:00 ts/train.py:232 step:33K smpl:264K ep:811 epch:15.90 loss:0.002 grdn:0.224 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:37:38 ts/train.py:232 step:33K smpl:266K ep:816 epch:16.00 loss:0.003 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 12:41:17 ts/train.py:232 step:33K smpl:267K ep:821 epch:16.09 loss:0.002 grdn:0.224 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 12:44:54 ts/train.py:232 step:34K smpl:269K ep:826 epch:16.19 loss:0.002 grdn:0.254 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:48:32 ts/train.py:232 step:34K smpl:270K ep:831 epch:16.29 loss:0.003 grdn:0.259 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:52:09 ts/train.py:232 step:34K smpl:272K ep:836 epch:16.38 loss:0.002 grdn:0.224 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:55:47 ts/train.py:232 step:34K smpl:274K ep:840 epch:16.48 loss:0.002 grdn:0.221 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 12:59:25 ts/train.py:232 step:34K smpl:275K ep:845 epch:16.58 loss:0.002 grdn:0.242 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:03:02 ts/train.py:232 step:35K smpl:277K ep:850 epch:16.67 loss:0.002 grdn:0.221 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:06:40 ts/train.py:232 step:35K smpl:278K ep:855 epch:16.77 loss:0.002 grdn:0.240 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:10:17 ts/train.py:232 step:35K smpl:280K ep:860 epch:16.87 loss:0.003 grdn:0.248 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:13:55 ts/train.py:232 step:35K smpl:282K ep:865 epch:16.96 loss:0.003 grdn:0.235 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 13:17:34 ts/train.py:232 step:35K smpl:283K ep:870 epch:17.06 loss:0.002 grdn:0.209 lr:2.5e-06 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 13:21:11 ts/train.py:232 step:36K smpl:285K ep:875 epch:17.15 loss:0.003 grdn:0.238 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 13:24:49 ts/train.py:232 step:36K smpl:286K ep:880 epch:17.25 loss:0.003 grdn:0.224 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:28:26 ts/train.py:232 step:36K smpl:288K ep:885 epch:17.35 loss:0.003 grdn:0.271 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:32:04 ts/train.py:232 step:36K smpl:290K ep:890 epch:17.44 loss:0.003 grdn:0.245 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:35:41 ts/train.py:232 step:36K smpl:291K ep:895 epch:17.54 loss:0.002 grdn:0.232 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:39:19 ts/train.py:232 step:37K smpl:293K ep:899 epch:17.64 loss:0.002 grdn:0.214 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:42:57 ts/train.py:232 step:37K smpl:294K ep:904 epch:17.73 loss:0.003 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:46:34 ts/train.py:232 step:37K smpl:296K ep:909 epch:17.83 loss:0.003 grdn:0.214 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 13:50:12 ts/train.py:232 step:37K smpl:298K ep:914 epch:17.93 loss:0.003 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 13:53:51 ts/train.py:232 step:37K smpl:299K ep:919 epch:18.02 loss:0.003 grdn:0.248 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 13:57:29 ts/train.py:232 step:38K smpl:301K ep:924 epch:18.12 loss:0.002 grdn:0.212 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:01:06 ts/train.py:232 step:38K smpl:302K ep:929 epch:18.21 loss:0.003 grdn:0.232 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:04:44 ts/train.py:232 step:38K smpl:304K ep:934 epch:18.31 loss:0.002 grdn:0.236 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 14:08:21 ts/train.py:232 step:38K smpl:306K ep:939 epch:18.41 loss:0.003 grdn:0.265 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:11:59 ts/train.py:232 step:38K smpl:307K ep:944 epch:18.50 loss:0.002 grdn:0.230 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:15:36 ts/train.py:232 step:39K smpl:309K ep:949 epch:18.60 loss:0.002 grdn:0.236 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:19:14 ts/train.py:232 step:39K smpl:310K ep:954 epch:18.70 loss:0.002 grdn:0.212 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:22:51 ts/train.py:232 step:39K smpl:312K ep:958 epch:18.79 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 14:26:29 ts/train.py:232 step:39K smpl:314K ep:963 epch:18.89 loss:0.003 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:30:06 ts/train.py:232 step:39K smpl:315K ep:968 epch:18.99 loss:0.003 grdn:0.233 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 14:33:46 ts/train.py:232 step:40K smpl:317K ep:973 epch:19.08 loss:0.003 grdn:0.252 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 14:37:23 ts/train.py:232 step:40K smpl:318K ep:978 epch:19.18 loss:0.002 grdn:0.219 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:41:01 ts/train.py:232 step:40K smpl:320K ep:983 epch:19.27 loss:0.003 grdn:0.270 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:41:01 ts/train.py:241 Checkpoint policy after step 40000
+INFO 2025-05-18 14:45:03 ts/train.py:232 step:40K smpl:322K ep:988 epch:19.37 loss:0.003 grdn:0.238 lr:2.5e-06 updt_s:1.084 data_s:0.002
+INFO 2025-05-18 14:48:40 ts/train.py:232 step:40K smpl:323K ep:993 epch:19.47 loss:0.002 grdn:0.232 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:52:18 ts/train.py:232 step:41K smpl:325K ep:998 epch:19.56 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:55:56 ts/train.py:232 step:41K smpl:326K ep:1K epch:19.66 loss:0.002 grdn:0.216 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 14:59:33 ts/train.py:232 step:41K smpl:328K ep:1K epch:19.76 loss:0.003 grdn:0.246 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:03:11 ts/train.py:232 step:41K smpl:330K ep:1K epch:19.85 loss:0.003 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 15:06:48 ts/train.py:232 step:41K smpl:331K ep:1K epch:19.95 loss:0.002 grdn:0.257 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 15:10:27 ts/train.py:232 step:42K smpl:333K ep:1K epch:20.05 loss:0.003 grdn:0.256 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 15:14:05 ts/train.py:232 step:42K smpl:334K ep:1K epch:20.14 loss:0.002 grdn:0.257 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:17:43 ts/train.py:232 step:42K smpl:336K ep:1K epch:20.24 loss:0.002 grdn:0.237 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:21:20 ts/train.py:232 step:42K smpl:338K ep:1K epch:20.33 loss:0.003 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:24:58 ts/train.py:232 step:42K smpl:339K ep:1K epch:20.43 loss:0.002 grdn:0.223 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:28:35 ts/train.py:232 step:43K smpl:341K ep:1K epch:20.53 loss:0.003 grdn:0.280 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:32:13 ts/train.py:232 step:43K smpl:342K ep:1K epch:20.62 loss:0.002 grdn:0.240 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:35:50 ts/train.py:232 step:43K smpl:344K ep:1K epch:20.72 loss:0.003 grdn:0.278 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:39:28 ts/train.py:232 step:43K smpl:346K ep:1K epch:20.82 loss:0.003 grdn:0.275 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:43:06 ts/train.py:232 step:43K smpl:347K ep:1K epch:20.91 loss:0.003 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 15:46:45 ts/train.py:232 step:44K smpl:349K ep:1K epch:21.01 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 15:50:22 ts/train.py:232 step:44K smpl:350K ep:1K epch:21.11 loss:0.002 grdn:0.229 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:54:00 ts/train.py:232 step:44K smpl:352K ep:1K epch:21.20 loss:0.002 grdn:0.245 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 15:57:37 ts/train.py:232 step:44K smpl:354K ep:1K epch:21.30 loss:0.003 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:01:15 ts/train.py:232 step:44K smpl:355K ep:1K epch:21.40 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:04:52 ts/train.py:232 step:45K smpl:357K ep:1K epch:21.49 loss:0.003 grdn:0.266 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:08:30 ts/train.py:232 step:45K smpl:358K ep:1K epch:21.59 loss:0.002 grdn:0.233 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:12:08 ts/train.py:232 step:45K smpl:360K ep:1K epch:21.68 loss:0.003 grdn:0.242 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:15:45 ts/train.py:232 step:45K smpl:362K ep:1K epch:21.78 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:19:23 ts/train.py:232 step:45K smpl:363K ep:1K epch:21.88 loss:0.003 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:23:00 ts/train.py:232 step:46K smpl:365K ep:1K epch:21.97 loss:0.003 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 16:26:39 ts/train.py:232 step:46K smpl:366K ep:1K epch:22.07 loss:0.003 grdn:0.253 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 16:30:17 ts/train.py:232 step:46K smpl:368K ep:1K epch:22.17 loss:0.002 grdn:0.249 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:33:54 ts/train.py:232 step:46K smpl:370K ep:1K epch:22.26 loss:0.003 grdn:0.258 lr:2.5e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 16:37:32 ts/train.py:232 step:46K smpl:371K ep:1K epch:22.36 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:41:10 ts/train.py:232 step:47K smpl:373K ep:1K epch:22.46 loss:0.002 grdn:0.228 lr:2.5e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 16:44:47 ts/train.py:232 step:47K smpl:374K ep:1K epch:22.55 loss:0.003 grdn:0.265 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:48:25 ts/train.py:232 step:47K smpl:376K ep:1K epch:22.65 loss:0.002 grdn:0.218 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:52:02 ts/train.py:232 step:47K smpl:378K ep:1K epch:22.74 loss:0.003 grdn:0.242 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:55:40 ts/train.py:232 step:47K smpl:379K ep:1K epch:22.84 loss:0.003 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 16:59:18 ts/train.py:232 step:48K smpl:381K ep:1K epch:22.94 loss:0.003 grdn:0.242 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 17:02:57 ts/train.py:232 step:48K smpl:382K ep:1K epch:23.03 loss:0.003 grdn:0.240 lr:2.5e-06 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 17:06:34 ts/train.py:232 step:48K smpl:384K ep:1K epch:23.13 loss:0.002 grdn:0.240 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:10:12 ts/train.py:232 step:48K smpl:386K ep:1K epch:23.23 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:13:49 ts/train.py:232 step:48K smpl:387K ep:1K epch:23.32 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:17:27 ts/train.py:232 step:49K smpl:389K ep:1K epch:23.42 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:21:04 ts/train.py:232 step:49K smpl:390K ep:1K epch:23.52 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:24:42 ts/train.py:232 step:49K smpl:392K ep:1K epch:23.61 loss:0.002 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:28:20 ts/train.py:232 step:49K smpl:394K ep:1K epch:23.71 loss:0.003 grdn:0.259 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:31:57 ts/train.py:232 step:49K smpl:395K ep:1K epch:23.80 loss:0.002 grdn:0.240 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:35:35 ts/train.py:232 step:50K smpl:397K ep:1K epch:23.90 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:39:12 ts/train.py:232 step:50K smpl:398K ep:1K epch:24.00 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.002
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 17:42:51 ts/train.py:232 step:50K smpl:400K ep:1K epch:24.09 loss:0.002 grdn:0.228 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 17:46:29 ts/train.py:232 step:50K smpl:402K ep:1K epch:24.19 loss:0.002 grdn:0.218 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:50:07 ts/train.py:232 step:50K smpl:403K ep:1K epch:24.29 loss:0.003 grdn:0.248 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 17:53:44 ts/train.py:232 step:51K smpl:405K ep:1K epch:24.38 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.084 data_s:0.002
+INFO 2025-05-18 17:57:22 ts/train.py:232 step:51K smpl:406K ep:1K epch:24.48 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-18 18:00:59 ts/train.py:232 step:51K smpl:408K ep:1K epch:24.58 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 18:04:37 ts/train.py:232 step:51K smpl:410K ep:1K epch:24.67 loss:0.002 grdn:0.257 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:08:14 ts/train.py:232 step:51K smpl:411K ep:1K epch:24.77 loss:0.003 grdn:0.283 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 18:11:52 ts/train.py:232 step:52K smpl:413K ep:1K epch:24.86 loss:0.002 grdn:0.249 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:15:29 ts/train.py:232 step:52K smpl:414K ep:1K epch:24.96 loss:0.003 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 18:19:09 ts/train.py:232 step:52K smpl:416K ep:1K epch:25.06 loss:0.003 grdn:0.243 lr:2.5e-06 updt_s:1.080 data_s:0.013
+INFO 2025-05-18 18:22:46 ts/train.py:232 step:52K smpl:418K ep:1K epch:25.15 loss:0.003 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:26:24 ts/train.py:232 step:52K smpl:419K ep:1K epch:25.25 loss:0.002 grdn:0.232 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:30:01 ts/train.py:232 step:53K smpl:421K ep:1K epch:25.35 loss:0.003 grdn:0.278 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:33:39 ts/train.py:232 step:53K smpl:422K ep:1K epch:25.44 loss:0.002 grdn:0.270 lr:2.5e-06 updt_s:1.083 data_s:0.002
+INFO 2025-05-18 18:37:16 ts/train.py:232 step:53K smpl:424K ep:1K epch:25.54 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:40:54 ts/train.py:232 step:53K smpl:426K ep:1K epch:25.64 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.084 data_s:0.002
+INFO 2025-05-18 18:44:31 ts/train.py:232 step:53K smpl:427K ep:1K epch:25.73 loss:0.002 grdn:0.245 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 18:48:09 ts/train.py:232 step:54K smpl:429K ep:1K epch:25.83 loss:0.002 grdn:0.250 lr:2.5e-06 updt_s:1.082 data_s:0.003
+INFO 2025-05-18 18:51:46 ts/train.py:232 step:54K smpl:430K ep:1K epch:25.92 loss:0.002 grdn:0.234 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 18:55:25 ts/train.py:232 step:54K smpl:432K ep:1K epch:26.02 loss:0.002 grdn:0.238 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 18:59:03 ts/train.py:232 step:54K smpl:434K ep:1K epch:26.12 loss:0.002 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:02:40 ts/train.py:232 step:54K smpl:435K ep:1K epch:26.21 loss:0.002 grdn:0.266 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:06:18 ts/train.py:232 step:55K smpl:437K ep:1K epch:26.31 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:09:56 ts/train.py:232 step:55K smpl:438K ep:1K epch:26.41 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:13:33 ts/train.py:232 step:55K smpl:440K ep:1K epch:26.50 loss:0.003 grdn:0.281 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:17:11 ts/train.py:232 step:55K smpl:442K ep:1K epch:26.60 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:20:48 ts/train.py:232 step:55K smpl:443K ep:1K epch:26.70 loss:0.003 grdn:0.272 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:24:26 ts/train.py:232 step:56K smpl:445K ep:1K epch:26.79 loss:0.002 grdn:0.271 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:28:03 ts/train.py:232 step:56K smpl:446K ep:1K epch:26.89 loss:0.002 grdn:0.242 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:31:41 ts/train.py:232 step:56K smpl:448K ep:1K epch:26.98 loss:0.002 grdn:0.230 lr:2.5e-06 updt_s:1.084 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 19:35:22 ts/train.py:232 step:56K smpl:450K ep:1K epch:27.08 loss:0.002 grdn:0.245 lr:2.5e-06 updt_s:1.084 data_s:0.016
+INFO 2025-05-18 19:38:59 ts/train.py:232 step:56K smpl:451K ep:1K epch:27.18 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:42:37 ts/train.py:232 step:57K smpl:453K ep:1K epch:27.27 loss:0.003 grdn:0.288 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:46:14 ts/train.py:232 step:57K smpl:454K ep:1K epch:27.37 loss:0.002 grdn:0.275 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:49:52 ts/train.py:232 step:57K smpl:456K ep:1K epch:27.47 loss:0.002 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:53:29 ts/train.py:232 step:57K smpl:458K ep:1K epch:27.56 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 19:57:07 ts/train.py:232 step:57K smpl:459K ep:1K epch:27.66 loss:0.003 grdn:0.236 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:00:45 ts/train.py:232 step:58K smpl:461K ep:1K epch:27.76 loss:0.002 grdn:0.253 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:04:22 ts/train.py:232 step:58K smpl:462K ep:1K epch:27.85 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:08:00 ts/train.py:232 step:58K smpl:464K ep:1K epch:27.95 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 20:11:39 ts/train.py:232 step:58K smpl:466K ep:1K epch:28.04 loss:0.002 grdn:0.247 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 20:15:16 ts/train.py:232 step:58K smpl:467K ep:1K epch:28.14 loss:0.003 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:18:54 ts/train.py:232 step:59K smpl:469K ep:1K epch:28.24 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:22:32 ts/train.py:232 step:59K smpl:470K ep:1K epch:28.33 loss:0.002 grdn:0.253 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:26:09 ts/train.py:232 step:59K smpl:472K ep:1K epch:28.43 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:29:47 ts/train.py:232 step:59K smpl:474K ep:1K epch:28.53 loss:0.002 grdn:0.248 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:33:24 ts/train.py:232 step:59K smpl:475K ep:1K epch:28.62 loss:0.002 grdn:0.248 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:37:02 ts/train.py:232 step:60K smpl:477K ep:1K epch:28.72 loss:0.002 grdn:0.258 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:40:40 ts/train.py:232 step:60K smpl:478K ep:1K epch:28.82 loss:0.002 grdn:0.231 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:44:17 ts/train.py:232 step:60K smpl:480K ep:1K epch:28.91 loss:0.003 grdn:0.254 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:44:17 ts/train.py:241 Checkpoint policy after step 60000
+INFO 2025-05-18 20:48:19 ts/train.py:232 step:60K smpl:482K ep:1K epch:29.01 loss:0.002 grdn:0.280 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 20:51:58 ts/train.py:232 step:60K smpl:483K ep:1K epch:29.10 loss:0.003 grdn:0.289 lr:2.5e-06 updt_s:1.081 data_s:0.014
+INFO 2025-05-18 20:55:36 ts/train.py:232 step:61K smpl:485K ep:1K epch:29.20 loss:0.003 grdn:0.282 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 20:59:14 ts/train.py:232 step:61K smpl:486K ep:1K epch:29.30 loss:0.002 grdn:0.231 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:02:51 ts/train.py:232 step:61K smpl:488K ep:1K epch:29.39 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:06:29 ts/train.py:232 step:61K smpl:490K ep:2K epch:29.49 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:10:06 ts/train.py:232 step:61K smpl:491K ep:2K epch:29.59 loss:0.002 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:13:44 ts/train.py:232 step:62K smpl:493K ep:2K epch:29.68 loss:0.003 grdn:0.259 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:17:21 ts/train.py:232 step:62K smpl:494K ep:2K epch:29.78 loss:0.002 grdn:0.240 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:20:59 ts/train.py:232 step:62K smpl:496K ep:2K epch:29.88 loss:0.003 grdn:0.261 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:24:37 ts/train.py:232 step:62K smpl:498K ep:2K epch:29.97 loss:0.003 grdn:0.293 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 21:28:16 ts/train.py:232 step:62K smpl:499K ep:2K epch:30.07 loss:0.003 grdn:0.289 lr:2.5e-06 updt_s:1.080 data_s:0.013
+INFO 2025-05-18 21:31:53 ts/train.py:232 step:63K smpl:501K ep:2K epch:30.17 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:35:31 ts/train.py:232 step:63K smpl:502K ep:2K epch:30.26 loss:0.002 grdn:0.247 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:39:08 ts/train.py:232 step:63K smpl:504K ep:2K epch:30.36 loss:0.002 grdn:0.273 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:42:46 ts/train.py:232 step:63K smpl:506K ep:2K epch:30.45 loss:0.002 grdn:0.272 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:46:24 ts/train.py:232 step:63K smpl:507K ep:2K epch:30.55 loss:0.003 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:50:01 ts/train.py:232 step:64K smpl:509K ep:2K epch:30.65 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:53:39 ts/train.py:232 step:64K smpl:510K ep:2K epch:30.74 loss:0.002 grdn:0.247 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 21:57:16 ts/train.py:232 step:64K smpl:512K ep:2K epch:30.84 loss:0.002 grdn:0.234 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:00:54 ts/train.py:232 step:64K smpl:514K ep:2K epch:30.94 loss:0.003 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 22:04:33 ts/train.py:232 step:64K smpl:515K ep:2K epch:31.03 loss:0.003 grdn:0.291 lr:2.5e-06 updt_s:1.081 data_s:0.012
+INFO 2025-05-18 22:08:10 ts/train.py:232 step:65K smpl:517K ep:2K epch:31.13 loss:0.003 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:11:48 ts/train.py:232 step:65K smpl:518K ep:2K epch:31.23 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:15:25 ts/train.py:232 step:65K smpl:520K ep:2K epch:31.32 loss:0.003 grdn:0.302 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:19:03 ts/train.py:232 step:65K smpl:522K ep:2K epch:31.42 loss:0.002 grdn:0.227 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:22:41 ts/train.py:232 step:65K smpl:523K ep:2K epch:31.51 loss:0.002 grdn:0.253 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:26:18 ts/train.py:232 step:66K smpl:525K ep:2K epch:31.61 loss:0.003 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:29:56 ts/train.py:232 step:66K smpl:526K ep:2K epch:31.71 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:33:33 ts/train.py:232 step:66K smpl:528K ep:2K epch:31.80 loss:0.003 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:37:11 ts/train.py:232 step:66K smpl:530K ep:2K epch:31.90 loss:0.003 grdn:0.264 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:40:48 ts/train.py:232 step:66K smpl:531K ep:2K epch:32.00 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 22:44:28 ts/train.py:232 step:67K smpl:533K ep:2K epch:32.09 loss:0.002 grdn:0.254 lr:2.5e-06 updt_s:1.081 data_s:0.014
+INFO 2025-05-18 22:48:05 ts/train.py:232 step:67K smpl:534K ep:2K epch:32.19 loss:0.002 grdn:0.242 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:51:43 ts/train.py:232 step:67K smpl:536K ep:2K epch:32.29 loss:0.002 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:55:20 ts/train.py:232 step:67K smpl:538K ep:2K epch:32.38 loss:0.002 grdn:0.293 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 22:58:58 ts/train.py:232 step:67K smpl:539K ep:2K epch:32.48 loss:0.002 grdn:0.235 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:02:36 ts/train.py:232 step:68K smpl:541K ep:2K epch:32.57 loss:0.002 grdn:0.245 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:06:13 ts/train.py:232 step:68K smpl:542K ep:2K epch:32.67 loss:0.002 grdn:0.255 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:09:51 ts/train.py:232 step:68K smpl:544K ep:2K epch:32.77 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:13:28 ts/train.py:232 step:68K smpl:546K ep:2K epch:32.86 loss:0.003 grdn:0.259 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:17:06 ts/train.py:232 step:68K smpl:547K ep:2K epch:32.96 loss:0.003 grdn:0.282 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 23:20:45 ts/train.py:232 step:69K smpl:549K ep:2K epch:33.06 loss:0.002 grdn:0.264 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-18 23:24:23 ts/train.py:232 step:69K smpl:550K ep:2K epch:33.15 loss:0.002 grdn:0.250 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:28:00 ts/train.py:232 step:69K smpl:552K ep:2K epch:33.25 loss:0.002 grdn:0.253 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:31:38 ts/train.py:232 step:69K smpl:554K ep:2K epch:33.35 loss:0.003 grdn:0.299 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:35:15 ts/train.py:232 step:69K smpl:555K ep:2K epch:33.44 loss:0.003 grdn:0.289 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:38:53 ts/train.py:232 step:70K smpl:557K ep:2K epch:33.54 loss:0.003 grdn:0.299 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:42:31 ts/train.py:232 step:70K smpl:558K ep:2K epch:33.63 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:46:08 ts/train.py:232 step:70K smpl:560K ep:2K epch:33.73 loss:0.003 grdn:0.266 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:49:46 ts/train.py:232 step:70K smpl:562K ep:2K epch:33.83 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-18 23:53:23 ts/train.py:232 step:70K smpl:563K ep:2K epch:33.92 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-18 23:57:02 ts/train.py:232 step:71K smpl:565K ep:2K epch:34.02 loss:0.002 grdn:0.248 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 00:00:40 ts/train.py:232 step:71K smpl:566K ep:2K epch:34.12 loss:0.003 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:04:18 ts/train.py:232 step:71K smpl:568K ep:2K epch:34.21 loss:0.003 grdn:0.296 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:07:55 ts/train.py:232 step:71K smpl:570K ep:2K epch:34.31 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:11:33 ts/train.py:232 step:71K smpl:571K ep:2K epch:34.41 loss:0.002 grdn:0.238 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:15:10 ts/train.py:232 step:72K smpl:573K ep:2K epch:34.50 loss:0.002 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:18:48 ts/train.py:232 step:72K smpl:574K ep:2K epch:34.60 loss:0.003 grdn:0.289 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:22:25 ts/train.py:232 step:72K smpl:576K ep:2K epch:34.69 loss:0.003 grdn:0.270 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:26:03 ts/train.py:232 step:72K smpl:578K ep:2K epch:34.79 loss:0.002 grdn:0.232 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:29:40 ts/train.py:232 step:72K smpl:579K ep:2K epch:34.89 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:33:18 ts/train.py:232 step:73K smpl:581K ep:2K epch:34.98 loss:0.002 grdn:0.236 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 00:36:57 ts/train.py:232 step:73K smpl:582K ep:2K epch:35.08 loss:0.002 grdn:0.265 lr:2.5e-06 updt_s:1.080 data_s:0.013
+INFO 2025-05-19 00:40:35 ts/train.py:232 step:73K smpl:584K ep:2K epch:35.18 loss:0.002 grdn:0.238 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:44:12 ts/train.py:232 step:73K smpl:586K ep:2K epch:35.27 loss:0.003 grdn:0.282 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:47:50 ts/train.py:232 step:73K smpl:587K ep:2K epch:35.37 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:51:27 ts/train.py:232 step:74K smpl:589K ep:2K epch:35.47 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:55:05 ts/train.py:232 step:74K smpl:590K ep:2K epch:35.56 loss:0.002 grdn:0.248 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 00:58:43 ts/train.py:232 step:74K smpl:592K ep:2K epch:35.66 loss:0.002 grdn:0.298 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:02:20 ts/train.py:232 step:74K smpl:594K ep:2K epch:35.75 loss:0.002 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:05:58 ts/train.py:232 step:74K smpl:595K ep:2K epch:35.85 loss:0.002 grdn:0.254 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:09:35 ts/train.py:232 step:75K smpl:597K ep:2K epch:35.95 loss:0.002 grdn:0.269 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 01:13:14 ts/train.py:232 step:75K smpl:598K ep:2K epch:36.04 loss:0.003 grdn:0.280 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 01:16:52 ts/train.py:232 step:75K smpl:600K ep:2K epch:36.14 loss:0.002 grdn:0.247 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:20:29 ts/train.py:232 step:75K smpl:602K ep:2K epch:36.24 loss:0.002 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:24:07 ts/train.py:232 step:75K smpl:603K ep:2K epch:36.33 loss:0.002 grdn:0.230 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:27:45 ts/train.py:232 step:76K smpl:605K ep:2K epch:36.43 loss:0.002 grdn:0.248 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:31:22 ts/train.py:232 step:76K smpl:606K ep:2K epch:36.53 loss:0.003 grdn:0.303 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:35:00 ts/train.py:232 step:76K smpl:608K ep:2K epch:36.62 loss:0.002 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:38:37 ts/train.py:232 step:76K smpl:610K ep:2K epch:36.72 loss:0.002 grdn:0.246 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:42:15 ts/train.py:232 step:76K smpl:611K ep:2K epch:36.81 loss:0.002 grdn:0.249 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:45:52 ts/train.py:232 step:77K smpl:613K ep:2K epch:36.91 loss:0.003 grdn:0.334 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 01:49:30 ts/train.py:232 step:77K smpl:614K ep:2K epch:37.01 loss:0.003 grdn:0.288 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 01:53:09 ts/train.py:232 step:77K smpl:616K ep:2K epch:37.10 loss:0.002 grdn:0.294 lr:2.5e-06 updt_s:1.081 data_s:0.011
+INFO 2025-05-19 01:56:46 ts/train.py:232 step:77K smpl:618K ep:2K epch:37.20 loss:0.003 grdn:0.245 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:00:25 ts/train.py:232 step:77K smpl:619K ep:2K epch:37.30 loss:0.003 grdn:0.262 lr:2.5e-06 updt_s:1.086 data_s:0.003
+INFO 2025-05-19 02:04:03 ts/train.py:232 step:78K smpl:621K ep:2K epch:37.39 loss:0.002 grdn:0.250 lr:2.5e-06 updt_s:1.085 data_s:0.003
+INFO 2025-05-19 02:07:40 ts/train.py:232 step:78K smpl:622K ep:2K epch:37.49 loss:0.002 grdn:0.223 lr:2.5e-06 updt_s:1.084 data_s:0.003
+INFO 2025-05-19 02:11:18 ts/train.py:232 step:78K smpl:624K ep:2K epch:37.59 loss:0.002 grdn:0.258 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:14:55 ts/train.py:232 step:78K smpl:626K ep:2K epch:37.68 loss:0.002 grdn:0.257 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:18:33 ts/train.py:232 step:78K smpl:627K ep:2K epch:37.78 loss:0.002 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:22:11 ts/train.py:232 step:79K smpl:629K ep:2K epch:37.87 loss:0.002 grdn:0.258 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:25:48 ts/train.py:232 step:79K smpl:630K ep:2K epch:37.97 loss:0.002 grdn:0.254 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 02:29:28 ts/train.py:232 step:79K smpl:632K ep:2K epch:38.07 loss:0.002 grdn:0.250 lr:2.5e-06 updt_s:1.081 data_s:0.016
+INFO 2025-05-19 02:33:05 ts/train.py:232 step:79K smpl:634K ep:2K epch:38.16 loss:0.002 grdn:0.280 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:36:43 ts/train.py:232 step:79K smpl:635K ep:2K epch:38.26 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:40:20 ts/train.py:232 step:80K smpl:637K ep:2K epch:38.36 loss:0.002 grdn:0.269 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:43:58 ts/train.py:232 step:80K smpl:638K ep:2K epch:38.45 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:47:35 ts/train.py:232 step:80K smpl:640K ep:2K epch:38.55 loss:0.002 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:47:35 ts/train.py:241 Checkpoint policy after step 80000
+INFO 2025-05-19 02:51:36 ts/train.py:232 step:80K smpl:642K ep:2K epch:38.65 loss:0.002 grdn:0.281 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:55:14 ts/train.py:232 step:80K smpl:643K ep:2K epch:38.74 loss:0.002 grdn:0.263 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 02:58:51 ts/train.py:232 step:81K smpl:645K ep:2K epch:38.84 loss:0.003 grdn:0.314 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:02:29 ts/train.py:232 step:81K smpl:646K ep:2K epch:38.94 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 03:06:08 ts/train.py:232 step:81K smpl:648K ep:2K epch:39.03 loss:0.002 grdn:0.288 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 03:09:45 ts/train.py:232 step:81K smpl:650K ep:2K epch:39.13 loss:0.002 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:13:23 ts/train.py:232 step:81K smpl:651K ep:2K epch:39.22 loss:0.003 grdn:0.255 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:17:01 ts/train.py:232 step:82K smpl:653K ep:2K epch:39.32 loss:0.003 grdn:0.278 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:20:38 ts/train.py:232 step:82K smpl:654K ep:2K epch:39.42 loss:0.003 grdn:0.257 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:24:16 ts/train.py:232 step:82K smpl:656K ep:2K epch:39.51 loss:0.002 grdn:0.257 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:27:53 ts/train.py:232 step:82K smpl:658K ep:2K epch:39.61 loss:0.002 grdn:0.254 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:31:31 ts/train.py:232 step:82K smpl:659K ep:2K epch:39.71 loss:0.002 grdn:0.225 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:35:08 ts/train.py:232 step:83K smpl:661K ep:2K epch:39.80 loss:0.002 grdn:0.278 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:38:46 ts/train.py:232 step:83K smpl:662K ep:2K epch:39.90 loss:0.002 grdn:0.247 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:42:24 ts/train.py:232 step:83K smpl:664K ep:2K epch:40.00 loss:0.002 grdn:0.279 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 03:46:03 ts/train.py:232 step:83K smpl:666K ep:2K epch:40.09 loss:0.002 grdn:0.283 lr:2.5e-06 updt_s:1.080 data_s:0.013
+INFO 2025-05-19 03:49:40 ts/train.py:232 step:83K smpl:667K ep:2K epch:40.19 loss:0.003 grdn:0.287 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:53:18 ts/train.py:232 step:84K smpl:669K ep:2K epch:40.28 loss:0.003 grdn:0.266 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 03:56:55 ts/train.py:232 step:84K smpl:670K ep:2K epch:40.38 loss:0.002 grdn:0.243 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:00:33 ts/train.py:232 step:84K smpl:672K ep:2K epch:40.48 loss:0.003 grdn:0.308 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:04:10 ts/train.py:232 step:84K smpl:674K ep:2K epch:40.57 loss:0.003 grdn:0.269 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:07:48 ts/train.py:232 step:84K smpl:675K ep:2K epch:40.67 loss:0.003 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:11:26 ts/train.py:232 step:85K smpl:677K ep:2K epch:40.77 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:15:03 ts/train.py:232 step:85K smpl:678K ep:2K epch:40.86 loss:0.002 grdn:0.235 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:18:41 ts/train.py:232 step:85K smpl:680K ep:2K epch:40.96 loss:0.002 grdn:0.260 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 04:22:20 ts/train.py:232 step:85K smpl:682K ep:2K epch:41.06 loss:0.003 grdn:0.247 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 04:25:57 ts/train.py:232 step:85K smpl:683K ep:2K epch:41.15 loss:0.002 grdn:0.259 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:29:35 ts/train.py:232 step:86K smpl:685K ep:2K epch:41.25 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:33:12 ts/train.py:232 step:86K smpl:686K ep:2K epch:41.34 loss:0.002 grdn:0.224 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:36:50 ts/train.py:232 step:86K smpl:688K ep:2K epch:41.44 loss:0.003 grdn:0.269 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:40:28 ts/train.py:232 step:86K smpl:690K ep:2K epch:41.54 loss:0.003 grdn:0.290 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:44:05 ts/train.py:232 step:86K smpl:691K ep:2K epch:41.63 loss:0.003 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:47:43 ts/train.py:232 step:87K smpl:693K ep:2K epch:41.73 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:51:20 ts/train.py:232 step:87K smpl:694K ep:2K epch:41.83 loss:0.002 grdn:0.292 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 04:54:58 ts/train.py:232 step:87K smpl:696K ep:2K epch:41.92 loss:0.002 grdn:0.258 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 04:58:37 ts/train.py:232 step:87K smpl:698K ep:2K epch:42.02 loss:0.003 grdn:0.319 lr:2.5e-06 updt_s:1.081 data_s:0.014
+INFO 2025-05-19 05:02:15 ts/train.py:232 step:87K smpl:699K ep:2K epch:42.12 loss:0.002 grdn:0.265 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:05:52 ts/train.py:232 step:88K smpl:701K ep:2K epch:42.21 loss:0.002 grdn:0.278 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:09:30 ts/train.py:232 step:88K smpl:702K ep:2K epch:42.31 loss:0.002 grdn:0.276 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:13:07 ts/train.py:232 step:88K smpl:704K ep:2K epch:42.40 loss:0.003 grdn:0.300 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:16:45 ts/train.py:232 step:88K smpl:706K ep:2K epch:42.50 loss:0.002 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:20:22 ts/train.py:232 step:88K smpl:707K ep:2K epch:42.60 loss:0.002 grdn:0.237 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:24:00 ts/train.py:232 step:89K smpl:709K ep:2K epch:42.69 loss:0.003 grdn:0.278 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:27:38 ts/train.py:232 step:89K smpl:710K ep:2K epch:42.79 loss:0.002 grdn:0.277 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:31:15 ts/train.py:232 step:89K smpl:712K ep:2K epch:42.89 loss:0.002 grdn:0.270 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:34:53 ts/train.py:232 step:89K smpl:714K ep:2K epch:42.98 loss:0.002 grdn:0.263 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 05:38:32 ts/train.py:232 step:89K smpl:715K ep:2K epch:43.08 loss:0.002 grdn:0.239 lr:2.5e-06 updt_s:1.080 data_s:0.014
+INFO 2025-05-19 05:42:10 ts/train.py:232 step:90K smpl:717K ep:2K epch:43.18 loss:0.003 grdn:0.279 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:45:47 ts/train.py:232 step:90K smpl:718K ep:2K epch:43.27 loss:0.002 grdn:0.265 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:49:25 ts/train.py:232 step:90K smpl:720K ep:2K epch:43.37 loss:0.002 grdn:0.279 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:53:02 ts/train.py:232 step:90K smpl:722K ep:2K epch:43.46 loss:0.002 grdn:0.261 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 05:56:40 ts/train.py:232 step:90K smpl:723K ep:2K epch:43.56 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:00:17 ts/train.py:232 step:91K smpl:725K ep:2K epch:43.66 loss:0.002 grdn:0.241 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:03:55 ts/train.py:232 step:91K smpl:726K ep:2K epch:43.75 loss:0.002 grdn:0.271 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:07:32 ts/train.py:232 step:91K smpl:728K ep:2K epch:43.85 loss:0.002 grdn:0.255 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:11:10 ts/train.py:232 step:91K smpl:730K ep:2K epch:43.95 loss:0.002 grdn:0.285 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 06:14:49 ts/train.py:232 step:91K smpl:731K ep:2K epch:44.04 loss:0.003 grdn:0.292 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 06:18:27 ts/train.py:232 step:92K smpl:733K ep:2K epch:44.14 loss:0.003 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:22:04 ts/train.py:232 step:92K smpl:734K ep:2K epch:44.24 loss:0.002 grdn:0.295 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:25:42 ts/train.py:232 step:92K smpl:736K ep:2K epch:44.33 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:29:19 ts/train.py:232 step:92K smpl:738K ep:2K epch:44.43 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:32:57 ts/train.py:232 step:92K smpl:739K ep:2K epch:44.52 loss:0.002 grdn:0.265 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:36:35 ts/train.py:232 step:93K smpl:741K ep:2K epch:44.62 loss:0.002 grdn:0.230 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:40:12 ts/train.py:232 step:93K smpl:742K ep:2K epch:44.72 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:43:50 ts/train.py:232 step:93K smpl:744K ep:2K epch:44.81 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:47:27 ts/train.py:232 step:93K smpl:746K ep:2K epch:44.91 loss:0.002 grdn:0.271 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 06:51:05 ts/train.py:232 step:93K smpl:747K ep:2K epch:45.01 loss:0.002 grdn:0.277 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 06:54:44 ts/train.py:232 step:94K smpl:749K ep:2K epch:45.10 loss:0.002 grdn:0.308 lr:2.5e-06 updt_s:1.080 data_s:0.014
+INFO 2025-05-19 06:58:22 ts/train.py:232 step:94K smpl:750K ep:2K epch:45.20 loss:0.002 grdn:0.245 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:01:59 ts/train.py:232 step:94K smpl:752K ep:2K epch:45.30 loss:0.002 grdn:0.277 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:05:37 ts/train.py:232 step:94K smpl:754K ep:2K epch:45.39 loss:0.002 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:09:14 ts/train.py:232 step:94K smpl:755K ep:2K epch:45.49 loss:0.002 grdn:0.235 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:12:52 ts/train.py:232 step:95K smpl:757K ep:2K epch:45.58 loss:0.002 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:16:29 ts/train.py:232 step:95K smpl:758K ep:2K epch:45.68 loss:0.002 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:20:07 ts/train.py:232 step:95K smpl:760K ep:2K epch:45.78 loss:0.002 grdn:0.290 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:23:44 ts/train.py:232 step:95K smpl:762K ep:2K epch:45.87 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:27:22 ts/train.py:232 step:95K smpl:763K ep:2K epch:45.97 loss:0.002 grdn:0.252 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 07:31:01 ts/train.py:232 step:96K smpl:765K ep:2K epch:46.07 loss:0.002 grdn:0.295 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 07:34:38 ts/train.py:232 step:96K smpl:766K ep:2K epch:46.16 loss:0.002 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:38:16 ts/train.py:232 step:96K smpl:768K ep:2K epch:46.26 loss:0.002 grdn:0.240 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:41:54 ts/train.py:232 step:96K smpl:770K ep:2K epch:46.36 loss:0.002 grdn:0.251 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:45:31 ts/train.py:232 step:96K smpl:771K ep:2K epch:46.45 loss:0.002 grdn:0.265 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:49:09 ts/train.py:232 step:97K smpl:773K ep:2K epch:46.55 loss:0.003 grdn:0.271 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:52:46 ts/train.py:232 step:97K smpl:774K ep:2K epch:46.64 loss:0.002 grdn:0.229 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 07:56:24 ts/train.py:232 step:97K smpl:776K ep:2K epch:46.74 loss:0.002 grdn:0.276 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:00:01 ts/train.py:232 step:97K smpl:778K ep:2K epch:46.84 loss:0.002 grdn:0.253 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:03:39 ts/train.py:232 step:97K smpl:779K ep:2K epch:46.93 loss:0.002 grdn:0.281 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 08:07:18 ts/train.py:232 step:98K smpl:781K ep:2K epch:47.03 loss:0.002 grdn:0.269 lr:2.5e-06 updt_s:1.080 data_s:0.014
+INFO 2025-05-19 08:10:56 ts/train.py:232 step:98K smpl:782K ep:2K epch:47.13 loss:0.002 grdn:0.232 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:14:33 ts/train.py:232 step:98K smpl:784K ep:2K epch:47.22 loss:0.003 grdn:0.273 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:18:11 ts/train.py:232 step:98K smpl:786K ep:2K epch:47.32 loss:0.002 grdn:0.285 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:21:48 ts/train.py:232 step:98K smpl:787K ep:2K epch:47.42 loss:0.002 grdn:0.287 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:25:26 ts/train.py:232 step:99K smpl:789K ep:2K epch:47.51 loss:0.002 grdn:0.256 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:29:03 ts/train.py:232 step:99K smpl:790K ep:2K epch:47.61 loss:0.002 grdn:0.244 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:32:41 ts/train.py:232 step:99K smpl:792K ep:2K epch:47.71 loss:0.002 grdn:0.264 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:36:18 ts/train.py:232 step:99K smpl:794K ep:2K epch:47.80 loss:0.002 grdn:0.223 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:39:56 ts/train.py:232 step:99K smpl:795K ep:2K epch:47.90 loss:0.002 grdn:0.262 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:43:34 ts/train.py:232 step:100K smpl:797K ep:2K epch:47.99 loss:0.002 grdn:0.267 lr:2.5e-06 updt_s:1.083 data_s:0.003
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+INFO 2025-05-19 08:47:13 ts/train.py:232 step:100K smpl:798K ep:2K epch:48.09 loss:0.002 grdn:0.298 lr:2.5e-06 updt_s:1.081 data_s:0.013
+INFO 2025-05-19 08:50:50 ts/train.py:232 step:100K smpl:800K ep:2K epch:48.19 loss:0.002 grdn:0.274 lr:2.5e-06 updt_s:1.083 data_s:0.003
+INFO 2025-05-19 08:50:50 ts/train.py:241 Checkpoint policy after step 100000
+INFO 2025-05-19 08:51:14 ts/train.py:283 End of training
+train finished
