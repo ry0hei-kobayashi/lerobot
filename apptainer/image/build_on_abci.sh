@@ -10,11 +10,12 @@ source "$HERE/../common/env.sh"
 source /etc/profile.d/modules.sh
 module load singularitypro
 
-# build 中の一時ファイル / キャッシュはホームに置かない (数十 GB になる)。
-# ログインノードには $PBS_LOCALDIR が無いのでグループ領域を使う
-export SINGULARITY_TMPDIR="${SINGULARITY_TMPDIR:-/groups/$ABCI_GROUP/$USER/tmp}"
-export SINGULARITY_CACHEDIR="/groups/$ABCI_GROUP/$USER/.singularity"
-SIF="${LEROBOT_SIF:-/groups/$ABCI_GROUP/$USER/sif/pi05.sif}"
+# build 中の一時ファイル / キャッシュはホーム直下に置く (数十 GB になるので quota に注意)。
+# ログインノードには $PBS_LOCALDIR が無い。グループ領域 (/groups/$ABCI_GROUP/$USER) に
+# 書き込めるなら SINGULARITY_TMPDIR / SINGULARITY_CACHEDIR で上書きしてよい
+export SINGULARITY_TMPDIR="${SINGULARITY_TMPDIR:-$HOME/.singularity/tmp}"
+export SINGULARITY_CACHEDIR="${SINGULARITY_CACHEDIR:-$HOME/.singularity/cache}"
+SIF="${LEROBOT_SIF:-$HOME/sif/pi05.sif}"
 mkdir -p "$SINGULARITY_TMPDIR" "$SINGULARITY_CACHEDIR" "$(dirname "$SIF")"
 
 cd "$HERE"   # %files の相対パスは cwd 基準
