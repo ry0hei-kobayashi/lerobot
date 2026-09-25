@@ -1,22 +1,22 @@
 #!/bin/bash
-# コンテナ内で任意のコマンドを実行する共通ラッパー。
-#   ./run.sh lerobot-train --policy.type=pi0 ...
+# コンテナ内で任意のコマンドを実行する共通ラッパー (apptainer / singularity 自動判定)。
+#   ./run.sh lerobot-train --policy.type=pi05 ...
 #   ./run.sh                       # 対話 bash
 #
-# ローカルでは apptainer、ABCI では singularity (SingularityPRO) を自動で選ぶ。
-#
 # 環境変数で調整:
-#   LEROBOT_SIF    使う SIF (default: このディレクトリの pi0.sif)
-#   LEROBOT_REPO   /opt/lerobot に bind するリポジトリ (default: このディレクトリの親)
-#   HF_HOME        HF のキャッシュ (default: ~/.cache/huggingface)。ホームの quota を
-#                  避けたい場合は ABCI のグループ領域などを指定する
+#   LEROBOT_SIF    使う SIF (default: ../image/pi05.sif)
+#   LEROBOT_REPO   /opt/lerobot に bind するリポジトリ (default: このディレクトリの 2 つ上)
+#   HF_HOME        HF のキャッシュ (default: ~/.cache/huggingface)。ABCI ではグループ領域を指定
 #   LEROBOT_BINDS  追加 bind ("src:dst,src2:dst2" 形式)
 #   CONTAINER_CMD  apptainer / singularity を強制指定
+#
+# env.sh はここでは読まない (ジョブスクリプト側で source する)。対話利用時は
+#   source ../common/env.sh && ../common/run.sh
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SIF="${LEROBOT_SIF:-$HERE/pi0.sif}"
-REPO="${LEROBOT_REPO:-$(cd "$HERE/.." && pwd)}"
+SIF="${LEROBOT_SIF:-$(cd "$HERE/../image" && pwd)/pi05.sif}"
+REPO="${LEROBOT_REPO:-$(cd "$HERE/../.." && pwd)}"
 export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"
 
 if [ -n "${CONTAINER_CMD:-}" ]; then
@@ -30,12 +30,13 @@ else
     exit 1
 fi
 
-[ -f "$SIF" ] || { echo "ERROR: SIF がありません: $SIF" >&2; exit 1; }
+[ -f "$SIF" ] || { echo "ERROR: SIF がありません: $SIF  (image/build.sh で作るか LEROBOT_SIF を設定)" >&2; exit 1; }
+[ -f "$REPO/pyproject.toml" ] || { echo "ERROR: リポジトリではありません: $REPO" >&2; exit 1; }
 mkdir -p "$HF_HOME"
 
 BINDS=("--bind" "$REPO:/opt/lerobot" "--bind" "$HF_HOME:$HF_HOME")
 # ABCI の計算ノードローカル NVMe / グループ領域があれば bind
-[ -n "${PBS_LOCALDIR:-}" ] && BINDS+=("--bind" "$PBS_LOCALDIR")
+[ -n "${PBS_LOCALDIR:-}" ] && [ -d "$PBS_LOCALDIR" ] && BINDS+=("--bind" "$PBS_LOCALDIR")
 [ -n "${ABCI_GROUP:-}" ] && [ -d "/groups/$ABCI_GROUP" ] && BINDS+=("--bind" "/groups/$ABCI_GROUP")
 if [ -n "${LEROBOT_BINDS:-}" ]; then
     IFS=',' read -ra EXTRA <<< "$LEROBOT_BINDS"

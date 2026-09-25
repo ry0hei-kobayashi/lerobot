@@ -85,50 +85,70 @@ docker run -it --rm --gpus all --shm-size 16gb \
 docker run -it --device=/dev/ -v /dev/:/dev/ --rm huggingface/lerobot-cpu:latest
 ```
 
-
 ---
 
-# Docker Environment
-## How to Use
-### (Optional) Set wandb key
-Note: `wandb_key.txt` is git-ignored
-```bash
-cp wandb_key.txt.keep wandb_key.txt
-echo '{YOUR_WANDB_KEY}' >> wandb_key.txt
+# ローカル PC 用 pi0.5 (pi05) 開発環境 (`docker/image/`)
+
+`Dockerfile.internal` と同じ構成 (CUDA 12.8 / Ubuntu 24.04 / Python 3.12 / uv / `uv.lock` 固定) で、
+venv をリポジトリ外 (`/opt/venv`) に置き、ホストのリポジトリを `/opt/lerobot` に bind mount して使う
+(`apptainer/image/pi05.def` と同じ設計。コードを変えても再 build 不要)。ホストと同じ UID/GID で動くので
+`outputs/` が root 所有にならない。クラスタ (ABCI / Slurm) 側は [`../apptainer/README.md`](../apptainer/README.md)。
+
+```
+docker/
+├── image/
+│   ├── Dockerfile            # CUDA 12.8 / Py3.12 / uv。extras: pi training aloha libero pusht async
+│   ├── docker-compose.yml    # GPU, ipc=host, リポジトリと HF キャッシュを mount
+│   ├── build.sh              # docker compose build
+│   └── run.sh                # コンテナ内でコマンド実行 (無ければ up -d)。`run.sh down` で停止
+├── train/train_pi05.sh       # fine-tune
+├── eval/eval_pi05.sh         # 成功率評価 (aloha / libero)
+└── deploy/deploy_pi05_aloha.sh   # gym-aloha で rollout + 動画保存
 ```
 
-### (Optional) Setup `DATASETS_PATH` to mount into the container
-```bash
-$ export DATASETS_PATH={YOUR_HOST_DATASETS_PATH_TO_MOUNT}
-```
-The directory is mounted as `/root/datasets` in the container.
+パラメータ (`HF_TOKEN`, `DATASET`, `BATCH_SIZE` ...) と `env.sh` は `apptainer/common/` と共有する。
+学習・評価の引数は `apptainer/common/lerobot_args.sh` にあり、ABCI と同じコマンドが走る。
 
-### 1. Build docker image
-Creating an image named `{YOUR_HOST_NAME}/lerobot:latest`
+## 使い方
+
+前提: NVIDIA ドライバ + [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)、docker compose >= 2.30。
+
 ```bash
-./BUILD_DOCKER_IMAGE.sh
+# 0. 設定 (初回)。HF_TOKEN は paligemma のライセンス承諾済みのもの
+cp apptainer/common/env.sh.example apptainer/common/env.sh && vim apptainer/common/env.sh
+
+# 1. build (10〜20 分)
+cd docker/image && ./build.sh
+
+# 2. 動作確認 / 対話 bash
+./run.sh nvidia-smi
+./run.sh                       # コンテナ内 bash (/opt/lerobot)
+
+# 3. 学習 (RTX A6000 48GB なら VLM 凍結 + 小さい batch)
+cd ../train
+BATCH_SIZE=8 TRAIN_EXPERT_ONLY=true ./train_pi05.sh
+BATCH_SIZE=4 STEPS=20 SAVE_FREQ=20 COMPILE_MODEL=false JOB_NAME=smoke ./train_pi05.sh   # スモークテスト
+
+# 4. 評価 / デプロイ
+cd ../eval   && JOB_NAME=smoke EVAL_EPISODES=2 EVAL_BATCH=2 ./eval_pi05.sh
+cd ../deploy && JOB_NAME=smoke DEPLOY_EPISODES=2 ./deploy_pi05_aloha.sh
+#   -> outputs/deploy/smoke/AlohaTransferCube-v0_<timestamp>/videos/aloha_0/eval_episode_{0,1}.mp4
+
+# 5. 停止
+cd ../image && ./run.sh down
 ```
 
-### 2. Run docker container (takes some time to install additional packages)
-Creating a container named `{YOUR_HOST_NAME}_gnfactor`
-```bash
-./RUN_DOCKER_CONTAINER.sh
-```
-
-### 3. Enter the container
-```bash
-docker exec -it {YOUR_HOST_NAME}_lerobot bash
-```
-
-### 4. Move to `/root/lerobot` directory in the container where this repository (lerobot) is mounted
-```bash
-cd /root/lerobot
-```
+- GPU を選ぶ: `CUDA_VISIBLE_DEVICES=1 ./train_pi05.sh` (compose の既定は 0)。
+- HF キャッシュはホストの `$HF_HOME` (既定 `~/.cache/huggingface`) をそのまま mount する。
+- `run.sh` は `HF_TOKEN` / `WANDB_API_KEY` / `CUDA_VISIBLE_DEVICES` を exec ごとにコンテナへ渡す。
 
 ### トラブルシューティング
-pi0でgemmaのモデルがDLできないとき
-huggingfaceにログイン，ユーザライセンス承諾，（まだないならtoken作成）
-```bash
-huggingface-cli login 
-```
-作成したtokenを入力して再度操作をやり直す
+
+- **pi0.5 で gemma のモデルが DL できない**: HF にログインし
+  [google/paligemma-3b-pt-224](https://huggingface.co/google/paligemma-3b-pt-224) のライセンスを承諾、
+  token を `apptainer/common/env.sh` の `HF_TOKEN` に書く (`huggingface-cli login` は不要)。
+- **`useradd: UID 1000 is not unique`**: Dockerfile の `userdel -r ubuntu` 行が消えている。
+- **eval / deploy で `Namespace gym_aloha not found`**: 非同期 env の worker で `gym_aloha` が import されない lerobot 側の問題。
+  既定の `EVAL_ASYNC=false` (同期 env) のままにする。
+- **`QUANTILES normalization mode requires q01 and q99`**: `env.sh` で
+  `NORM_MAPPING='{"ACTION":"MEAN_STD","STATE":"MEAN_STD","VISUAL":"IDENTITY"}'` を設定。

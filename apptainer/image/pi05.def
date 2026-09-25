@@ -1,29 +1,31 @@
-# LeRobot pi0 fine-tune / eval container
+# LeRobot pi0.5 (pi05) fine-tune / eval / deploy container
 #
-# ローカル (apptainer):  cd apptainer && apptainer build --fakeroot pi0.sif pi0.def
-# ABCI    (singularitypro):  cd apptainer && singularity build --fakeroot pi0.sif pi0.def
+# build は必ず image/ ディレクトリで実行する (%files の相対パスは cwd 基準):
+#   ローカル (apptainer):     ./build.sh
+#   ABCI    (singularitypro): ./build_on_abci.sh   (ログインノードで実行)
 #
 # 中身は docker/Dockerfile.internal (HF 公式 GPU イメージ) と同じ構成:
 #   CUDA 12.8 / Ubuntu 24.04 / Python 3.12 / uv / uv.lock で固定した依存
 #
-# リポジトリは /opt/lerobot に editable install される。
+# リポジトリは /opt/lerobot に editable install、venv は /opt/venv。
 # 実行時に手元のリポジトリを --bind <repo>:/opt/lerobot で上書きすると
-# SIF を作り直さずにコード変更が反映される (venv は /opt/venv なので影響なし)。
+# SIF を作り直さずにコード変更が反映される (venv はリポジトリ外なので影響なし)。
+# 依存 (pyproject.toml / uv.lock) を変えたときだけ再 build する。
 
 Bootstrap: docker
 From: nvidia/cuda:12.8.1-base-ubuntu24.04
 
 %labels
     Author          Ryohei Kobayashi
-    Description     LeRobot pi0 train/eval (CUDA 12.8, Python 3.12, uv)
+    Description     LeRobot pi05 train/eval/deploy (CUDA 12.8, Python 3.12, uv)
 
 %files
-    ../pyproject.toml   /opt/lerobot/pyproject.toml
-    ../uv.lock          /opt/lerobot/uv.lock
-    ../setup.py         /opt/lerobot/setup.py
-    ../README.md        /opt/lerobot/README.md
-    ../MANIFEST.in      /opt/lerobot/MANIFEST.in
-    ../src              /opt/lerobot/src
+    ../../pyproject.toml   /opt/lerobot/pyproject.toml
+    ../../uv.lock          /opt/lerobot/uv.lock
+    ../../setup.py         /opt/lerobot/setup.py
+    ../../README.md        /opt/lerobot/README.md
+    ../../MANIFEST.in      /opt/lerobot/MANIFEST.in
+    ../../src              /opt/lerobot/src
 
 %post
     set -e
@@ -43,20 +45,21 @@ From: nvidia/cuda:12.8.1-base-ubuntu24.04
     curl -LsSf https://astral.sh/uv/install.sh | sh
     mv /root/.local/bin/uv /usr/local/bin/uv
 
-    # venv はリポジトリの外 (/opt/venv) に置く。
-    # 実行時に /opt/lerobot をホストのリポジトリで bind しても venv が隠れないようにするため。
+    # venv はリポジトリの外 (/opt/venv)。/opt/lerobot を bind しても venv が隠れない
     export UV_PROJECT_ENVIRONMENT=/opt/venv
     export UV_NO_CACHE=1
     cd /opt/lerobot
     uv venv --python python${PYTHON_VERSION} /opt/venv
 
-    # 必要な extra だけ入れる (全部入りにしたければ --extra all)
+    # 必要な extra だけ入れる (全部入りは --extra all)
     #   pi       : pi0 / pi05 (transformers, scipy)
     #   training : datasets, wandb, accelerate, torchcodec
+    #   aloha    : gym-aloha (MuJoCo ALOHA シミュレーション。deploy / eval に使う)
     #   libero   : LIBERO シミュレーション eval
     #   pusht    : PushT シミュレーション eval
+    #   async    : async inference (policy_server / robot_client; grpcio)
     uv sync --locked \
-        --extra pi --extra training --extra libero --extra pusht
+        --extra pi --extra training --extra aloha --extra libero --extra pusht --extra async
 
     # Dockerfile.internal と同じ workaround (triton の ptxas に実行権限が無い)
     chmod +x /opt/venv/lib/python${PYTHON_VERSION}/site-packages/triton/backends/nvidia/bin/ptxas || true
@@ -73,11 +76,11 @@ From: nvidia/cuda:12.8.1-base-ubuntu24.04
     export MUJOCO_GL=egl
     export TOKENIZERS_PARALLELISM=false
     export PYTHONUNBUFFERED=1
-    # HF_HOME 等は実行側 (ジョブスクリプト) で --env / SINGULARITYENV_ を使って渡す
+    # HF_HOME 等は実行側 (common/run.sh) が --env で渡す
 
 %runscript
-    # `apptainer run pi0.sif <cmd...>` でそのまま venv 内のコマンドを実行する
-    # 例: apptainer run --nv pi0.sif lerobot-train --policy.type=pi0 ...
+    # `apptainer run pi05.sif <cmd...>` で venv 内のコマンドをそのまま実行する
+    # 例: apptainer run --nv pi05.sif lerobot-train --policy.type=pi05 ...
     if [ $# -eq 0 ]; then
         exec /bin/bash
     fi
@@ -85,4 +88,6 @@ From: nvidia/cuda:12.8.1-base-ubuntu24.04
 
 %test
     python -c "import lerobot, torch; print('lerobot', lerobot.__version__, 'torch', torch.__version__)"
+    python -c "import gym_aloha, transformers; print('gym_aloha OK / transformers', transformers.__version__)"
+    python -c "from lerobot.policies.pi05.configuration_pi05 import PI05Config; print('pi05 config OK')"
     which lerobot-train lerobot-eval

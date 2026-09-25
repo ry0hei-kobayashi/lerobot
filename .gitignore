@@ -180,6 +180,7 @@ outputs/
 # Apptainer / Singularity images
 *.sif
 *.sandbox/
-apptainer/abci/env.sh
-apptainer/abci/logs/
+apptainer/common/env.sh
+apptainer/logs/
 apptainer/.build_tmp/
+wandb_key.txt

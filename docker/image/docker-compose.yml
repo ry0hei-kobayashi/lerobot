@@ -1,0 +1,29 @@
+# ローカル PC 用。build.sh / run.sh 経由で使う (UID / GID / HF_HOME を export してから compose を呼ぶ)。
+services:
+  lerobot:
+    build:
+      context: ../..                        # リポジトリルート
+      dockerfile: docker/image/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: ${USER:-user}/lerobot-pi05:latest
+    container_name: ${USER:-user}_lerobot_pi05
+    gpus: all                               # nvidia-container-toolkit 必須 (compose >= 2.30)
+    ipc: host                               # DataLoader worker の共有メモリ (shm_size の代わり)
+    network_mode: host
+    tty: true
+    stdin_open: true
+    working_dir: /opt/lerobot
+    volumes:
+      - ../..:/opt/lerobot                                                   # SIF の --bind repo:/opt/lerobot と同じ
+      - ${HF_HOME:-~/.cache/huggingface}:/home/lerobot/.cache/huggingface    # dataset / pi05_base のキャッシュ
+    environment:
+      - HF_TOKEN                            # ホストの値をそのまま渡す (未設定なら空)
+      - WANDB_API_KEY
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - HF_HOME=/home/lerobot/.cache/huggingface
+      - HF_LEROBOT_HOME=/home/lerobot/.cache/huggingface/lerobot
+      - MUJOCO_GL=egl
+      - HYDRA_FULL_ERROR=1
+    command: sleep infinity                 # 常駐させて run.sh が docker compose exec する
