@@ -176,3 +176,10 @@ outputs/
 *.urdf
 *.xml
 *.part
+
+# Apptainer / Singularity images
+*.sif
+*.sandbox/
+apptainer/abci/env.sh
+apptainer/abci/logs/
+apptainer/.build_tmp/

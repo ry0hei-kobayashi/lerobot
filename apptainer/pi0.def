@@ -1,93 +1,88 @@
+# LeRobot pi0 fine-tune / eval container
+#
+# ローカル (apptainer):  cd apptainer && apptainer build --fakeroot pi0.sif pi0.def
+# ABCI    (singularitypro):  cd apptainer && singularity build --fakeroot pi0.sif pi0.def
+#
+# 中身は docker/Dockerfile.internal (HF 公式 GPU イメージ) と同じ構成:
+#   CUDA 12.8 / Ubuntu 24.04 / Python 3.12 / uv / uv.lock で固定した依存
+#
+# リポジトリは /opt/lerobot に editable install される。
+# 実行時に手元のリポジトリを --bind <repo>:/opt/lerobot で上書きすると
+# SIF を作り直さずにコード変更が反映される (venv は /opt/venv なので影響なし)。
+
 Bootstrap: docker
-From: nvidia/cuda:12.2.2-devel-ubuntu22.04
+From: nvidia/cuda:12.8.1-base-ubuntu24.04
 
 %labels
     Author          Ryohei Kobayashi
-    Description     Lerobot pi0 train
+    Description     LeRobot pi0 train/eval (CUDA 12.8, Python 3.12, uv)
 
 %files
-    ../  /root/lerobot
+    ../pyproject.toml   /opt/lerobot/pyproject.toml
+    ../uv.lock          /opt/lerobot/uv.lock
+    ../setup.py         /opt/lerobot/setup.py
+    ../README.md        /opt/lerobot/README.md
+    ../MANIFEST.in      /opt/lerobot/MANIFEST.in
+    ../src              /opt/lerobot/src
 
 %post
-    #set -e
+    set -e
     export DEBIAN_FRONTEND=noninteractive
-    export PYTHON_VERSION=3.10
+    export PYTHON_VERSION=3.12
 
-    #add ffmpeg & pip 
     apt-get update && apt-get install -y --no-install-recommends \
-        build-essential cmake \
-        git git-lfs openssh-client \
-        nano vim less util-linux tree \
-        htop atop nvtop \
-        sed gawk grep curl wget zip unzip \
-        tcpdump sysstat screen tmux \
-        libglib2.0-0 libgl1-mesa-glx libegl1-mesa \
-        speech-dispatcher portaudio19-dev libgeos-dev \
-        python${PYTHON_VERSION} python${PYTHON_VERSION}-dev python${PYTHON_VERSION}-venv \
-        autoconf automake yasm libass-dev libfreetype6-dev libgnutls28-dev \
-        libunistring-dev libmp3lame-dev libtool libvorbis-dev meson ninja-build \
-        pkg-config texinfo zlib1g-dev nasm libx264-dev libx265-dev libnuma-dev \
-        libvpx-dev libfdk-aac-dev libopus-dev libsvtav1-dev libsvtav1enc-dev \
-        libsvtav1dec-dev libdav1d-dev \
-        libx11-dev libxcursor-dev libxcb1-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
-        ffmpeg python3-pip gpg \
+        build-essential git git-lfs curl wget ca-certificates \
+        vim less htop tmux tree \
+        libglib2.0-0 libgl1 libegl1 ffmpeg \
+        libusb-1.0-0-dev speech-dispatcher libgeos-dev portaudio19-dev \
+        cmake pkg-config ninja-build \
+        python${PYTHON_VERSION} python${PYTHON_VERSION}-venv python${PYTHON_VERSION}-dev \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-    #install gh CLI
-    mkdir -p -m 755 /etc/apt/keyrings
-    wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg \
-         | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
-    chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
-         | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-    apt-get update && apt-get install -y gh && apt-get clean && rm -rf /var/lib/apt/lists/*
+    # uv
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    mv /root/.local/bin/uv /usr/local/bin/uv
 
-    ln -s /usr/bin/python3 /usr/bin/python || true
+    # venv はリポジトリの外 (/opt/venv) に置く。
+    # 実行時に /opt/lerobot をホストのリポジトリで bind しても venv が隠れないようにするため。
+    export UV_PROJECT_ENVIRONMENT=/opt/venv
+    export UV_NO_CACHE=1
+    cd /opt/lerobot
+    uv venv --python python${PYTHON_VERSION} /opt/venv
 
-    #install poetry
-    curl -sSL https://install.python-poetry.org | python -
-    export PATH="/root/.local/bin:$PATH"
-    poetry config virtualenvs.create false
-    poetry config virtualenvs.in-project true
+    # 必要な extra だけ入れる (全部入りにしたければ --extra all)
+    #   pi       : pi0 / pi05 (transformers, scipy)
+    #   training : datasets, wandb, accelerate, torchcodec
+    #   libero   : LIBERO シミュレーション eval
+    #   pusht    : PushT シミュレーション eval
+    uv sync --locked \
+        --extra pi --extra training --extra libero --extra pusht
 
-    #install pi0 env
-    echo 'install pi0 environment'
-    cd /root/lerobot \
-      && pip install -e ".[pi0]" \
-      && pip install pytest \
-      && git config --global --add safe.directory /root/lerobot
-    echo 'install finished'
-    echo 'before run script, please set HF_TOKEN=""'
+    # Dockerfile.internal と同じ workaround (triton の ptxas に実行権限が無い)
+    chmod +x /opt/venv/lib/python${PYTHON_VERSION}/site-packages/triton/backends/nvidia/bin/ptxas || true
 
-#app:train
-#%appinstall train
-   
+    # 実行ユーザは root ではないので読めるようにしておく
+    chmod -R a+rX /opt/lerobot /opt/venv
 
-#exec env
+    git config --system --add safe.directory '*'
+
 %environment
-    export PATH="/root/.local/bin:$PATH"
-    export MUJOCO_GL="egl"
+    export PATH="/opt/venv/bin:$PATH"
+    export VIRTUAL_ENV=/opt/venv
+    export UV_PROJECT_ENVIRONMENT=/opt/venv
+    export MUJOCO_GL=egl
+    export TOKENIZERS_PARALLELISM=false
+    export PYTHONUNBUFFERED=1
+    # HF_HOME 等は実行側 (ジョブスクリプト) で --env / SINGULARITYENV_ を使って渡す
 
-#apptainer run
 %runscript
-    #exec nvidia-smi
+    # `apptainer run pi0.sif <cmd...>` でそのまま venv 内のコマンドを実行する
+    # 例: apptainer run --nv pi0.sif lerobot-train --policy.type=pi0 ...
+    if [ $# -eq 0 ]; then
+        exec /bin/bash
+    fi
+    exec "$@"
 
-    pip install einops
-
-    huggingface-cli login --token "$HF_TOKEN" --add-to-git-credential
-
-    python /root/lerobot/lerobot/scripts/eval.py \
-         --policy.path=/root/lerobot/lerobot/apptainer/outputs/train/100000/pretrained_model \
-	 --policy.local_files_only=true \
-    	 --env.type=pusht \
-    	 --eval.batch_size=10 \
-    	 --eval.n_episodes=50 \
-    	 --policy.use_amp=false \
-    	 --policy.device=cuda
-
-    #echo "train starting"
-    #python /root/lerobot/lerobot/scripts/train.py \
-    #    --policy.path=lerobot/pi0 \
-    #    --dataset.repo_id=danaaubakirova/koch_test 
-    #echo "train finished"
-
+%test
+    python -c "import lerobot, torch; print('lerobot', lerobot.__version__, 'torch', torch.__version__)"
+    which lerobot-train lerobot-eval
