@@ -56,6 +56,11 @@ def _make_vec_env_cls(use_async: bool, n_envs: int):
 @dataclass
 class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
     task: str | None = None
+    # Natural-language instruction handed to the policy during evaluation. Set it for envs that do not
+    # expose a `task_description` themselves (e.g. gym-aloha only exposes the gym id "transfer_cube"),
+    # so language-conditioned policies (pi0, pi05, smolvla, ...) see the same prompt they were trained on.
+    # Multi-task benchmarks (LIBERO, MetaWorld, ...) ignore it and use their own per-task descriptions.
+    task_description: str | None = None
     fps: int = 30
     features: dict[str, PolicyFeature] = field(default_factory=dict)
     features_map: dict[str, str] = field(default_factory=dict)
@@ -109,7 +114,11 @@ class EnvConfig(draccus.ChoiceRegistry, abc.ABC):
                 )
 
         def _make_one():
-            return gym.make(self.gym_id, disable_env_checker=self.disable_env_checker, **self.gym_kwargs)
+            env = gym.make(self.gym_id, disable_env_checker=self.disable_env_checker, **self.gym_kwargs)
+            if self.task_description is not None:
+                # Read back by `env.call("task_description")` in `lerobot_eval.rollout` via `get_wrapper_attr`.
+                env.task_description = self.task_description
+            return env
 
         extra_kwargs: dict = {}
         if env_cls is gym.vector.AsyncVectorEnv:

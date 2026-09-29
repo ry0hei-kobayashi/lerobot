@@ -36,6 +36,7 @@
 : "${EVAL_BATCH:=10}"
 : "${EVAL_ASYNC:=false}"
 : "${EVAL_COMPILE_MODEL:=false}"   # 推論で torch.compile を使うか。H200 で illegal memory access が出るので既定 off
+: "${EVAL_TASK_DESCRIPTION:=}"     # 空なら aloha は dataset と同じ文を lerobot_aloha_task_description で補う
 : "${EXTRA_EVAL_ARGS:=}"
 : "${DEPLOY_TASK:=AlohaTransferCube-v0}"
 : "${DEPLOY_EPISODES:=10}"
@@ -77,6 +78,24 @@ lerobot_train_args() {
     return 0
 }
 
+# compile_model フィールドを持つ policy だけに --policy.compile_model を渡す (act などは弾かれる)
+lerobot_compile_arg() {
+    case "$POLICY_TYPE" in
+        pi0|pi05|pi0_fast|smolvla|diffusion|molmoact2|flux3) echo "--policy.compile_model=$EVAL_COMPILE_MODEL" ;;
+        *) echo "" ;;
+    esac
+}
+
+# gym-aloha は task_description を持たず、そのままだと policy への指示文が "transfer cube" (gym id) になる。
+# 学習 dataset (lerobot/aloha_sim_*_human) の文と同じものを返す
+lerobot_aloha_task_description() {
+    case "$1" in
+        AlohaTransferCube-v0) echo "Pick up the cube with the right arm and transfer it to the left arm." ;;
+        AlohaInsertion-v0)    echo "Insert the peg into the socket." ;;
+        *) echo "" ;;
+    esac
+}
+
 # 評価。--policy.path は重み + config.json を読むので --policy.type は付けない
 lerobot_eval_args() {
     local task="$EVAL_TASK"
@@ -86,6 +105,8 @@ lerobot_eval_args() {
             libero) task=libero_object ;;
         esac
     fi
+    local desc="$EVAL_TASK_DESCRIPTION"
+    [ -z "$desc" ] && [ "$EVAL_ENV" = aloha ] && desc="$(lerobot_aloha_task_description "$task")"
     LEROBOT_OUTPUT_DIR="outputs/eval/${JOB_NAME}/${EVAL_ENV}_${task}"
     LEROBOT_ARGS=(
         --policy.path="$CKPT"
@@ -95,11 +116,12 @@ lerobot_eval_args() {
         --eval.n_episodes="$EVAL_EPISODES"
         --eval.batch_size="$EVAL_BATCH"
         --eval.use_async_envs="$EVAL_ASYNC"        # aloha は forkserver の worker で gym_aloha が import されず落ちるので同期 env
-        --policy.compile_model="$EVAL_COMPILE_MODEL"   # checkpoint の config.json (学習時 true) を上書き
         --output_dir="$LEROBOT_OUTPUT_DIR"
         --job_name="${JOB_NAME}_eval"
         --seed="$SEED"
     )
+    [ -n "$desc" ] && LEROBOT_ARGS+=(--env.task_description="$desc")   # 学習時と同じ指示文を policy に渡す
+    local comp; comp="$(lerobot_compile_arg)"; [ -n "$comp" ] && LEROBOT_ARGS+=("$comp")   # checkpoint の compile_model=true を上書き
     # shellcheck disable=SC2206
     [ -n "$EXTRA_EVAL_ARGS" ] && LEROBOT_ARGS+=($EXTRA_EVAL_ARGS)
     return 0
@@ -110,6 +132,8 @@ lerobot_eval_args() {
 # batch_size = n_episodes で 1 batch にまとめる。動画: <output_dir>/videos/aloha_0/eval_episode_N.mp4
 lerobot_deploy_args() {
     local stamp; stamp="$(date +%Y%m%d_%H%M%S)"
+    local desc="$EVAL_TASK_DESCRIPTION"
+    [ -z "$desc" ] && desc="$(lerobot_aloha_task_description "$DEPLOY_TASK")"
     LEROBOT_OUTPUT_DIR="outputs/deploy/${JOB_NAME}/${DEPLOY_TASK}_${stamp}"
     LEROBOT_ARGS=(
         --policy.path="$CKPT"
@@ -119,11 +143,12 @@ lerobot_deploy_args() {
         --eval.n_episodes="$DEPLOY_EPISODES"
         --eval.batch_size="$DEPLOY_EPISODES"
         --eval.use_async_envs="$EVAL_ASYNC"
-        --policy.compile_model="$EVAL_COMPILE_MODEL"
         --output_dir="$LEROBOT_OUTPUT_DIR"
         --job_name="${JOB_NAME}_deploy"
         --seed="$SEED"
     )
+    [ -n "$desc" ] && LEROBOT_ARGS+=(--env.task_description="$desc")
+    local comp; comp="$(lerobot_compile_arg)"; [ -n "$comp" ] && LEROBOT_ARGS+=("$comp")   # checkpoint の compile_model=true を上書き
     # shellcheck disable=SC2206
     [ -n "$EXTRA_DEPLOY_ARGS" ] && LEROBOT_ARGS+=($EXTRA_DEPLOY_ARGS)
     return 0

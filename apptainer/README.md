@@ -144,6 +144,31 @@ cd ~/lerobot/apptainer/common && source env.sh
 | 省メモリ                                      | `TRAIN_EXPERT_ONLY=true` (VLM 凍結) / `BATCH_SIZE` を下げる。48GB クラスは `BATCH_SIZE=4-8 TRAIN_EXPERT_ONLY=true`                                                                       |
 | pi0 に戻す                                    | `POLICY_TYPE=pi0 PRETRAINED=lerobot/pi0_base`                                                                                                                                            |
 
+## ロールアウトの成功率が低いとき (把持でかすめる・handover まで行かない)
+
+まず「学習不足」か「設定のずれ」かを切り分ける。
+
+1. **checkpoint ごとの成功率を比べる**: `CKPT=outputs/train/<JOB>/checkpoints/005000/pretrained_model` … `last` を
+   `eval/eval_pi05.sh` (50 episode) で順に評価する。後ろの checkpoint ほど良いなら学習を延ばす (`STEPS`) 価値がある。
+   途中で頭打ちなら学習時間ではなく下の設定を疑う。
+2. **学習ログの loss**: `grep "loss:" logs/pi05_train.o<jobid> | tail` で下がり切っているか見る。
+3. **指示文 (最重要)**: gym-aloha は `task_description` を持たないので、何もしないと pi05 への指示文は gym id の
+   `transfer cube` になり、学習時の "Pick up the cube with the right arm and transfer it to the left arm." と食い違う。
+   eval / deploy スクリプトは `--env.task_description` (`EVAL_TASK_DESCRIPTION`) で dataset と同じ文を渡すようにしてある。
+   自前 dataset なら `meta/tasks.parquet` の文を `EVAL_TASK_DESCRIPTION` に書く。
+4. **正規化**: `lerobot/aloha_sim_*_human` には q01/q99 統計が無いため `NORM_MAPPING` で MEAN_STD にしているが、
+   pi05_base は QUANTILES で事前学習されている。quantile 統計を付けた dataset を作って QUANTILES (pi05 既定) で学習し直すと揃う:
+   ```bash
+   ./run.sh lerobot-edit-dataset --repo_id lerobot/aloha_sim_transfer_cube_human \
+       --new_repo_id <hf_user>/aloha_sim_transfer_cube_human_q --operation.type recompute_stats --push_to_hub false
+   DATASET=<hf_user>/aloha_sim_transfer_cube_human_q NORM_MAPPING= ./submit.sh ../train/train_pi05.sh
+   ```
+   (`NORM_MAPPING=` を空にすると pi05 既定の QUANTILES になる。ローカルに作った dataset は HF_HOME 配下から読まれる)
+5. **dataset**: human デモ (50 episode) はばらつきが大きい。`lerobot/aloha_sim_transfer_cube_scripted` (スクリプト生成、動きが一様) の方が
+   sim では成功率が出やすい。
+6. **再推論間隔**: `N_ACTION_STEPS` を 10 → 5 にすると閉ループが細かくなり把持の精度が上がることがある (推論コストは 2 倍)。
+7. **評価の数**: deploy の 10 episode では ±30% 程度ぶれる。判断は `eval_pi05.sh` の 50 episode で行う。
+
 ## ABCI 3.0 メモ
 
 | 項目         | 内容                                                                                                                                                         |
