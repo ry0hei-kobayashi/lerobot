@@ -35,6 +35,7 @@
 : "${EVAL_EPISODES:=50}"
 : "${EVAL_BATCH:=10}"
 : "${EVAL_ASYNC:=false}"
+: "${EVAL_COMPILE_MODEL:=false}"   # 推論で torch.compile を使うか。H200 で illegal memory access が出るので既定 off
 : "${EXTRA_EVAL_ARGS:=}"
 : "${DEPLOY_TASK:=AlohaTransferCube-v0}"
 : "${DEPLOY_EPISODES:=10}"
@@ -94,6 +95,7 @@ lerobot_eval_args() {
         --eval.n_episodes="$EVAL_EPISODES"
         --eval.batch_size="$EVAL_BATCH"
         --eval.use_async_envs="$EVAL_ASYNC"        # aloha は forkserver の worker で gym_aloha が import されず落ちるので同期 env
+        --policy.compile_model="$EVAL_COMPILE_MODEL"   # checkpoint の config.json (学習時 true) を上書き
         --output_dir="$LEROBOT_OUTPUT_DIR"
         --job_name="${JOB_NAME}_eval"
         --seed="$SEED"
@@ -117,6 +119,7 @@ lerobot_deploy_args() {
         --eval.n_episodes="$DEPLOY_EPISODES"
         --eval.batch_size="$DEPLOY_EPISODES"
         --eval.use_async_envs="$EVAL_ASYNC"
+        --policy.compile_model="$EVAL_COMPILE_MODEL"
         --output_dir="$LEROBOT_OUTPUT_DIR"
         --job_name="${JOB_NAME}_deploy"
         --seed="$SEED"

@@ -166,6 +166,10 @@ cd ~/lerobot/apptainer/common && source env.sh
 - **`QUANTILES normalization mode requires q01 and q99`**: 上の pi0.5 メモの `NORM_MAPPING` を設定する。
 - **eval / deploy で `Namespace gym_aloha not found` → `BrokenPipeError`**: `AsyncVectorEnv` (forkserver) の worker で `gym_aloha` が
   import されない lerobot 側の問題。スクリプトは既定で `EVAL_ASYNC=false` (同期 env) にしてある。
+- **eval / deploy が `RuntimeError: CUDA driver error: an illegal memory access was encountered` で落ちる** (traceback に `torch/_inductor` / `cudagraph_trees` / `triton_heuristics`):
+  学習時の `compile_model=true` が checkpoint の `config.json` に残り、推論でも torch.compile が走って H200 上で inductor の生成カーネルが不正アクセスを起こす。
+  eval / deploy は既定で `--policy.compile_model=false` (`EVAL_COMPILE_MODEL`) を渡して上書きする。古いスクリプトのままなら `EXTRA_EVAL_ARGS` / `EXTRA_DEPLOY_ARGS="--policy.compile_model=false"` を付ける。
+  直前に出る `No valid triton configs. OutOfMemoryError: out of resource: triton_mm` は autotune の候補が弾かれているだけの警告で、原因ではない。
 - **ホームの quota 超過**: `HF_HOME` と `LEROBOT_SIF` をグループ領域にする (env.sh.example の通り)。
 - **`lerobot-train` refuses to start (accelerate env)**: ジョブスクリプトが `-V` でホスト環境を全部渡すので、
   ログインシェルで `ACCELERATE_*` を export していたら消す。
