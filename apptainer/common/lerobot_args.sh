@@ -11,6 +11,10 @@
 #
 # パラメータはすべて環境変数 (common/env.sh.example 参照)。ここにあるのは最終デフォルト。
 
+# --output_dir / CKPT の相対パスはコンテナ内 cwd (= /opt/lerobot = リポジトリ直下) 基準。
+# ホスト側の存在確認も同じ基準で行う (run.sh の LEROBOT_REPO と同じ既定)
+_LEROBOT_REPO="${LEROBOT_REPO:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+
 # ---- デフォルト ----
 : "${POLICY_TYPE:=pi05}"
 : "${PRETRAINED:=lerobot/pi05_base}"
@@ -29,7 +33,7 @@
 : "${NORM_MAPPING:=}"
 : "${WANDB_ENABLE:=false}"
 : "${EXTRA_TRAIN_ARGS:=}"
-: "${CKPT:=outputs/train/$JOB_NAME/checkpoints/last/pretrained_model}"
+: "${CKPT:=}"                      # 空なら lerobot_default_ckpt が outputs/train/$JOB_NAME(+_<日時>) の最新 run を選ぶ
 : "${EVAL_ENV:=aloha}"
 : "${EVAL_TASK:=}"
 : "${EVAL_EPISODES:=50}"
@@ -47,14 +51,46 @@ lerobot_require_token() {
         || { echo "ERROR: HF_TOKEN を設定してください (apptainer/common/env.sh 参照)" >&2; exit 1; }
 }
 
-# 学習。$1 は JOB_NAME に付ける suffix (8gpu 版は "_8gpu")
+# 既に存在する出力ディレクトリなら末尾に _<日時> を付けた名前を返す
+# (学習は FileExistsError で落ち、eval は eval_info.json が上書きされるのを防ぐ)
+lerobot_unique_output_dir() {
+    local dir="$1"
+    if [ -e "$_LEROBOT_REPO/$dir" ]; then
+        local stamp; stamp="$(date +%Y%m%d_%H%M%S)"
+        echo "WARN: $dir は既に存在するので ${dir}_${stamp} に出力します" >&2
+        dir="${dir}_${stamp}"
+    fi
+    echo "$dir"
+}
+
+# CKPT 未指定時: outputs/train/$JOB_NAME と、重複回避で付いた outputs/train/${JOB_NAME}_<YYYYmmdd_HHMMSS> のうち
+# checkpoints/last/pretrained_model を持つ最新 (mtime) のものを返す。無ければ従来の固定パス (lerobot 側でエラーになる)
+lerobot_default_ckpt() {
+    local base="$_LEROBOT_REPO/outputs/train/$JOB_NAME" d latest=""
+    for d in "$base" "$base"_[0-9]*_[0-9]*; do
+        [ "$d" = "$base" ] || [[ "$d" =~ _[0-9]{8}_[0-9]{6}$ ]] || continue   # _8gpu などは除外
+        [ -d "$d/checkpoints/last/pretrained_model" ] || continue
+        if [ -z "$latest" ] || [ "$d/checkpoints/last/pretrained_model" -nt "$latest/checkpoints/last/pretrained_model" ]; then
+            latest="$d"
+        fi
+    done
+    if [ -n "$latest" ]; then
+        echo "outputs/train/$(basename "$latest")/checkpoints/last/pretrained_model"
+    else
+        echo "outputs/train/$JOB_NAME/checkpoints/last/pretrained_model"
+    fi
+}
+
+# 学習。$1 は JOB_NAME に付ける suffix (8gpu 版は "_8gpu")。
+# 出力先は outputs/train/<job>。既にあれば outputs/train/<job>_<日時> (LEROBOT_OUTPUT_DIR に入る)
 lerobot_train_args() {
     local job="${JOB_NAME}${1:-}"
+    LEROBOT_OUTPUT_DIR="$(lerobot_unique_output_dir "outputs/train/$job")"
     LEROBOT_ARGS=(
         --policy.type="$POLICY_TYPE"
         --policy.pretrained_path="$PRETRAINED"        # 重みだけ読む。設定は下で明示する
         --dataset.repo_id="$DATASET"
-        --output_dir="outputs/train/$job"
+        --output_dir="$LEROBOT_OUTPUT_DIR"
         --job_name="$job"
         --policy.device=cuda
         --policy.dtype=bfloat16
@@ -107,9 +143,12 @@ lerobot_eval_args() {
     fi
     local desc="$EVAL_TASK_DESCRIPTION"
     [ -z "$desc" ] && [ "$EVAL_ENV" = aloha ] && desc="$(lerobot_aloha_task_description "$task")"
-    LEROBOT_OUTPUT_DIR="outputs/eval/${JOB_NAME}/${EVAL_ENV}_${task}"
+    local ckpt="${CKPT:-$(lerobot_default_ckpt)}"
+    echo "CKPT: $ckpt" >&2
+    # 既にあれば outputs/eval/<JOB_NAME>/<env>_<task>_<日時> (前回の eval_info.json を上書きしない)
+    LEROBOT_OUTPUT_DIR="$(lerobot_unique_output_dir "outputs/eval/${JOB_NAME}/${EVAL_ENV}_${task}")"
     LEROBOT_ARGS=(
-        --policy.path="$CKPT"
+        --policy.path="$ckpt"
         --policy.device=cuda
         --env.type="$EVAL_ENV"
         --env.task="$task"
@@ -134,9 +173,11 @@ lerobot_deploy_args() {
     local stamp; stamp="$(date +%Y%m%d_%H%M%S)"
     local desc="$EVAL_TASK_DESCRIPTION"
     [ -z "$desc" ] && desc="$(lerobot_aloha_task_description "$DEPLOY_TASK")"
+    local ckpt="${CKPT:-$(lerobot_default_ckpt)}"
+    echo "CKPT: $ckpt" >&2
     LEROBOT_OUTPUT_DIR="outputs/deploy/${JOB_NAME}/${DEPLOY_TASK}_${stamp}"
     LEROBOT_ARGS=(
-        --policy.path="$CKPT"
+        --policy.path="$ckpt"
         --policy.device=cuda
         --env.type=aloha
         --env.task="$DEPLOY_TASK"

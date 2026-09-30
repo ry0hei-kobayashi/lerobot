@@ -3,7 +3,8 @@
 #   ./eval_pi05.sh                                                       # env.sh の CKPT / EVAL_ENV
 #   CKPT=outputs/train/smoke/checkpoints/last/pretrained_model EVAL_EPISODES=2 EVAL_BATCH=2 ./eval_pi05.sh
 #   EVAL_ENV=libero EVAL_TASK=libero_spatial EVAL_BATCH=1 ./eval_pi05.sh
-# 結果: outputs/eval/<JOB_NAME>/<env>_<task>/eval_info.json (+ videos/ に先頭 10 episode の mp4)
+# 結果: outputs/eval/<JOB_NAME>/<env>_<task>/eval_info.json (+ videos/ に先頭 10 episode の mp4)。
+#       既にあれば <env>_<task>_<日時>/ に出る (上書きしない)。CKPT 未指定なら最新の学習 run を自動選択
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMMON="$(cd "$HERE/../../apptainer/common" && pwd)"

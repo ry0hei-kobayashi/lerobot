@@ -97,6 +97,8 @@ tail -f ../logs/pi05_train-<jobid>.out                # Slurm のログ
 ```
 
 学習結果は `~/lerobot/outputs/train/<JOB_NAME>/` (8 GPU 版は `<JOB_NAME>_8gpu`) に出る。
+同じ `JOB_NAME` で再実行したときは既存を壊さず `outputs/train/<JOB_NAME>_<YYYYmmdd_HHMMSS>/` に出る
+(`lerobot-train` は出力先が既にあると `FileExistsError` で落ちるため、`common/lerobot_args.sh` が日時を付ける)。
 ジョブスクリプトは対話ジョブやローカル apptainer から直接 `./train_pi05.sh` と実行してもよい。
 
 ## 4. 評価 (成功率)
@@ -109,6 +111,9 @@ EVAL_ENV=libero EVAL_TASK=libero_spatial EVAL_BATCH=1 ./submit.sh ../eval/eval_p
 ```
 
 結果: `outputs/eval/<JOB_NAME>/<env>_<task>/eval_info.json` (+ `videos/` に先頭 10 episode の mp4)。
+同じ組み合わせで再評価したときは `<env>_<task>_<YYYYmmdd_HHMMSS>/` に出る (前回の `eval_info.json` を上書きしない)。
+`CKPT` 未指定なら `outputs/train/<JOB_NAME>` と `outputs/train/<JOB_NAME>_<日時>` のうち
+`checkpoints/last/pretrained_model` を持つ最新の run を自動で選ぶ (ログの `CKPT:` 行で確認できる)。
 
 ## 5. デプロイ (gym-aloha で rollout)
 

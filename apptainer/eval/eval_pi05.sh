@@ -8,7 +8,8 @@
 #   CKPT=outputs/train/pi05_aloha_sim/checkpoints/010000/pretrained_model ./submit.sh ../eval/eval_pi05.sh
 #   EVAL_ENV=libero EVAL_TASK=libero_spatial EVAL_BATCH=1 ./submit.sh ../eval/eval_pi05.sh
 #   研究室 Slurm: ./submit.sh ../eval/eval_pi05.sh -p part_80gb --gres=gpu:a100:1
-# 結果: outputs/eval/<JOB_NAME>/<env>_<task>/eval_info.json (+ videos/ に先頭 10 episode の mp4)
+# 結果: outputs/eval/<JOB_NAME>/<env>_<task>/eval_info.json (+ videos/ に先頭 10 episode の mp4)。
+#       既にあれば <env>_<task>_<日時>/ に出る (上書きしない)。CKPT 未指定なら最新の学習 run を自動選択
 set -euo pipefail
 cd "${PBS_O_WORKDIR:-${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}}"   # = apptainer/eval
 COMMON="$(cd ../common && pwd)"
